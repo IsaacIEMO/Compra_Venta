@@ -1,0 +1,11 @@
+.text_v{
+    text-align: center;
+}
+
+.text_e{
+    text-align: justify;
+}
+
+textarea {
+    resize: none;
+}

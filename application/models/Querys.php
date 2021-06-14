@@ -1,0 +1,285 @@
+<?php
+    
+    defined('BASEPATH') OR exit('No direct script access allowed');
+    
+    class Querys extends CI_Model {
+    
+        public function __construct(){
+            parent::__construct();
+        }
+        
+        /* CATEGORY */
+
+        public function Category_Insert($categoria, $descripcion){
+            if (empty($categoria) && empty($descripcion)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $cate = "CA-".$code;
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+            $codigo_categoria = md5($cate);
+
+            $data = array(
+                'codigo_categoria' => $codigo_categoria,
+                'codigo' => $cate,
+                'categoria' => $categoria,
+                'descripcion' => $descripcion,
+                'u_registro' => $codigo_usuario
+            );
+
+            $consulta = $this->db->insert('categoria', $data);
+            if ($consulta) {
+                header('location:'.base_url('index.php/Products/category'));
+                exit;
+            }else {
+                echo "No se pudieron guardar datos en la base de datos";
+                exit;
+            }
+            
+        }
+
+        public function Category_Select(){
+            $consulta = $this->db->order_by('categoria','DESC')->get_where('categoria',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function Category_Delete($codigo_categoria){
+            if (empty($codigo_categoria)) {
+                echo "Error, no viene datos";
+                exit;
+            }
+
+            $date = date('Y-m-d H:i:s A');
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'u_eliminacion' => $codigo_usuario,
+                'f_eliminacion' => $date,
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_categoria', $codigo_categoria);
+            $this->db->update('categoria', $data);
+
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/category'));
+                exit;
+            }else {
+                echo "Error al guardar datos";
+                exit;
+            }
+        }
+
+        /* SETTINGS */
+
+        public function Presentation_Insert($presentacion, $libras = null, $descripcion = null){
+            if (empty($presentacion)) {
+                echo "Error, no hay datos en presentacion";
+                exit;
+            }
+
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $prese = "PS-".$code;
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+            $codigo_presentacion = md5($prese);
+
+            $data = array(
+                'codigo_presentacion' => $codigo_presentacion,
+                'presentacion' => $presentacion,
+                'libras' => $libras,
+                'descripcion' => $descripcion,
+                'u_registro' => $codigo_usuario
+            );
+
+            $consulta = $this->db->insert('presentacion', $data);
+            
+            if ($consulta) {
+                header('location:'.base_url('index.php/Settings/Presentation'));
+                exit;
+            }else{
+                echo "Error, No se puedieron guardar los datos correctamente";
+                exit;
+            }
+            
+        }
+
+        public function Presentacion_Select(){
+            $consulta = $this->db->order_by('presentacion', 'DESC')->get_where('presentacion', array('estado' => 1));
+            return $consulta->result();
+        }
+
+        public function Presentation_Delete($codigo_presentacion){
+            if (empty($codigo_presentacion)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+            $date = date('Y-m-d H:i:s A');
+
+            $data = array(
+                'f_eliminacion' => $date,
+                'u_eliminacion' => $codigo_usuario,
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_presentacion', $codigo_presentacion);
+            $this->db->update('presentacion', $data);
+            
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Settings/Presentation'));
+                exit;
+            }else {
+                echo "Error al guardar datos";
+                exit;
+            }
+            
+        }
+
+        public function Roles_Select(){
+            $consulta = $this->db->order_by('rol', 'ASC')->get_where('roles', array('estado' => 1));
+            return $consulta->result();
+        }
+
+        /* PRODUCTS */
+
+        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $descripcion = null){
+            if (empty($producto) && empty($categoria) && empty($presentacion)) {
+                echo "Error, no viene datos dentro de los paramentros";
+                exit;
+            }
+
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $prod = "PRS-".$code;
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+            $codigo_producto = md5($prod);
+
+            $data = array(
+                'codigo_producto' => $codigo_producto,
+                'codigo_categoria' => $categoria,
+                'codigo_presentacion' => $presentacion,
+                'codigo' => $prod,
+                'producto' => $producto,
+                'detalles' => $descripcion,
+                'u_registro' => $codigo_usuario
+            );
+
+            $consulta = $this->db->insert('producto', $data);
+
+            //$utilidad = (($stock*$venta)-($stock*$compra));
+            $utilidad = ($venta-$compra);
+
+            if ($consulta) {
+                $datos = array(
+                    'codigo_inventario' => md5('IN-'.$code),
+                    'codigo_categoria' => $categoria,
+                    'codigo_producto' => $codigo_producto,
+                    'codigo_presentacion' => $presentacion,
+                    'stock' => $stock,
+                    'precio_compra' => $compra,
+                    'precio_venta' => $venta,
+                    'utilidad' => $utilidad,
+                    'u_registro' => $codigo_usuario
+                );
+
+                $query = $this->db->insert('inventario', $datos);
+                if ($query) {
+                    header('location:'.base_url('index.php/Products/list_products'));
+                    exit;
+                }else {
+                    echo "Error, no se puedieron guardar los datos solicitados";
+                    exit;
+                }
+            }else {
+                echo "Error, no se puedieron guardar los datos solicitados";
+                exit;
+            }
+        }
+
+        public function Products_Select(){
+            $consulta = $this->db->order_by('producto', 'ASC')->get_where('producto', array('estado' => 1));
+            return $consulta->result();
+        }
+
+        
+
+        /* USERS */
+
+        public function Users_Insert($nombre, $apellido, $rol, $user, $pass, $password){
+            if (empty($nombre) && empty($apellido) && empty($rol) && empty($user) && empty($pass) && empty($password)) {
+                echo "No hay campos disponibles";
+                exit;
+            }
+
+            if ($pass === $password) {
+                $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                $code = "";
+                $longitud=4;
+                for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+                $use = "US-".$code;
+
+                $data = array(
+                    'codigo_usuario' => md5($use),
+                    'nombre' => $nombre,
+                    'apellido' => $apellido,
+                    'usuario' => $user,
+                    'password' => md5($password),
+                    'rol' => $rol
+                );
+
+                $consulta = $this->db->insert('auth', $data);
+
+                if ($consulta) {
+                    header('location:'.base_url('index.php/Users/List_User'));
+                    exit;
+                }else {
+                    echo "Error al guardar datos";
+                    exit;
+                }
+                
+            }
+        }
+    
+        public function Users_Select(){
+            $consulta = $this->db->order_by('nombre','ASC')->get_where('auth',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function User_Delete($codigo_usuario){
+            if (empty($codigo_usuario)) {
+                echo "No hay datos";
+                exit;
+            }
+            $date = date('Y-m-d H:i:s A');
+
+            $data = array(
+                'fecha_e' => $date,
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_usuario', $codigo_usuario);
+            $this->db->update('auth', $data);
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Users/List_User'));
+                exit;
+            }else {
+                echo "Error al guardar datos";
+                exit;
+            }
+        }
+    }
+?>
