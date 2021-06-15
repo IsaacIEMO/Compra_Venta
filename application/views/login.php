@@ -53,7 +53,7 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="<?= base_url('assets/');?>dist/js/jquery-3.6.0.min.js"></script>
 <script src="<?= base_url('assets/');?>dist/js/auth/login.js"></script>
 <!--script src="<?= base_url('assets/');?>plugins/jquery/jquery.min.js"></script-->
 <!-- Bootstrap 4 -->

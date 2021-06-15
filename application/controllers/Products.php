@@ -69,7 +69,7 @@
             $this->Querys->Category_Insert($categoria, $descripcion);
         }
 
-        public function Delete_Category($codigo_categoria = null){
+        public function Delete_Category($codigo_categoria){
             if ($codigo_categoria == null) {
                 redirect();
             }
@@ -81,11 +81,21 @@
             $producto = $this->input->post('producto');
             $categoria = $this->input->post('categoria');
             $presentacion = $this->input->post('presentacion');
+            $vencimiento = $this->input->post('reservationdate');
             $stock = $this->input->post('stock');
             $compra = $this->input->post('compra');
             $venta = $this->input->post('venta');
+            $utilidad = $this->input->post('utilidad');
             $descripcion = $this->input->post('descripcion');
-            $this->Querys->Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $descripcion);
+            $this->Querys->Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $descripcion);
+        }
+
+        public function Delete_Product($codigo_producto){
+            if ($codigo_producto == null) {
+                redirect();
+            }
+
+            $this->Querys->Products_Delete($codigo_producto);
         }
     
     }

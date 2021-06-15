@@ -1,9 +1,34 @@
 <?php
   $url = $this->uri->segment(2);
   $urls = $this->uri->segment(1);
-?>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
+	if ($url === "new_products") {
+?>
+	
+<?php
+	}
+?>
+<script language="JavaScript">  
+		function calcular(){
+			var existencia =  parseFloat( document.getElementById("stock").value);   
+			var precio_compra = parseFloat( document.getElementById("compra").value);            
+			var precio_venta = parseFloat( document.getElementById("venta").value);            
+			var sub_total = precio_venta - precio_compra ;
+			var conDecimal = sub_total.toFixed(2); 
+			var total = existencia * conDecimal; 
+
+			function separator(total) {
+				var str = total.toString().split(".");
+				str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				return str.join(".");
+			}
+
+			var total = document.getElementById("utilidad").value = separator(total);    
+		}   
+
+	</script> 
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' ? 'onload="calcular();"' : ' '?>>
 	<div class="wrapper">
 
 		<div class="preloader flex-column justify-content-center align-items-center">
@@ -19,9 +44,7 @@
 				<li class="nav-item d-none d-sm-inline-block">
 					<a href="<?= base_url('index.php/Dashboard');?>" class="nav-link">Inicio</a>
 				</li>
-				<!--li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= base_url('index.php/Login/logout');?>" class="nav-link">Cerrar sesión</a>
-      </li-->
+
 			</ul>
 
 			<ul class="navbar-nav ml-auto">
@@ -33,7 +56,7 @@
 			</ul>
 		</nav>
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<a href="<?= base_url('index.php/Dashboard');?>" class="brand-link">
 				<img src="<?= base_url('assets/');?>dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
 					class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -52,7 +75,8 @@
 
 				<div class="form-inline">
 					<div class="input-group" data-widget="sidebar-search">
-						<input class="form-control form-control-sidebar" type="search" placeholder="Buscar" aria-label="Search">
+						<input class="form-control form-control-sidebar" type="search" placeholder="Buscar"
+							aria-label="Search">
 						<div class="input-group-append">
 							<button class="btn btn-sidebar">
 								<i class="fas fa-search fa-fw"></i>
@@ -63,6 +87,7 @@
 
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
 						<li class="nav-item">
 							<a href="<?= base_url('index.php/Dashboard');?>"
 								class="nav-link <?= $urls === 'Dashboard' ? 'active' : '' ;?>">
@@ -72,18 +97,23 @@
 								</p>
 							</a>
 						</li>
+
 						<li class="nav-item">
-							<a href="<?= base_url('index.php/Store');?>" class="nav-link <?= $urls === 'Store' ? 'active' : '' ;?>">
+							<a href="<?= base_url('index.php/Store');?>"
+								class="nav-link <?= $urls === 'Store' ? 'active' : '' ;?>">
 								<i class="fas fa-shopping-cart nav-icon"></i>
 								<p>Compras</p>
 							</a>
 						</li>
+
 						<li class="nav-item">
-							<a href="<?= base_url('index.php/Supplier');?>" class="nav-link <?= $urls === 'Supplier' ? 'active' : '' ;?>">
+							<a href="<?= base_url('index.php/Supplier');?>"
+								class="nav-link <?= $urls === 'Supplier' ? 'active' : '' ;?>">
 								<i class="fas fa-truck nav-icon"></i>
 								<p>Proveedores</p>
 							</a>
 						</li>
+
 						<li class="nav-item <?= $urls === 'Products' ? 'menu-open' : '' ;?>">
 							<a href="#" class="nav-link <?= $urls === 'Products' ? 'active' : '' ;?>">
 								<i class="nav-icon fas fa-th"></i>
@@ -95,13 +125,15 @@
 							<ul class="nav nav-treeview">
 
 								<li class="nav-item">
-									<a href="<?= base_url('index.php/Products/new_products');?>" class="nav-link <?= $url === 'new_products' ? 'active' : '' ;?>">
+									<a href="<?= base_url('index.php/Products/new_products');?>"
+										class="nav-link <?= $url === 'new_products' ? 'active' : '' ;?>">
 										<i class="far fa-edit nav-icon"></i>
 										<p>Registro de Productos</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="<?= base_url('index.php/Products/list_products');?>" class="nav-link <?= $url === 'list_products' ? 'active' : '' ;?>">
+									<a href="<?= base_url('index.php/Products/list_products');?>"
+										class="nav-link <?= $url === 'list_products' ? 'active' : '' ;?>">
 										<i class="far fa-list-alt nav-icon"></i>
 										<p>Inventario</p>
 									</a>
@@ -115,6 +147,43 @@
 								</li>
 							</ul>
 						</li>
+
+						<li class="nav-item <?= $urls === 'Sales' ? 'menu-open' : '' ;?>">
+							<a href="#" class="nav-link <?= $urls === 'Sales' ? 'active' : '' ;?>">
+								<i class="nav-icon fas fa-th"></i>
+								<p>
+									Ventas
+									<i class="fas fa-angle-left right"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Products/new_products');?>"
+										class="nav-link <?= $url === 'new_products' ? 'active' : '' ;?>">
+										<i class="far fa-edit nav-icon"></i>
+										<p>Venta de producto</p>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Products/list_products');?>"
+										class="nav-link <?= $url === 'list_products' ? 'active' : '' ;?>">
+										<i class="far fa-list-alt nav-icon"></i>
+										<p>Inventario</p>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Products/category');?>"
+										class="nav-link <?= $url === 'category' ? 'active' : '' ;?>">
+										<i class="fas fa-plus nav-icon"></i>
+										<p>Categorias</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+
 						<li class="nav-item <?= $urls === 'Users' ? 'menu-open' : '' ;?>">
 							<a href="#" class="nav-link <?= $urls === 'Users' ? 'active' : '' ;?>">
 								<i class="nav-icon fas fa-users"></i>
@@ -140,6 +209,7 @@
 								</li>
 							</ul>
 						</li>
+
 						<li class="nav-item <?= $urls === 'Settings' ? 'menu-open' : '' ;?>">
 							<a href="#" class="nav-link <?= $urls === 'Settings' ? 'active' : '' ;?>">
 								<i class="nav-icon fas fa-cog"></i>
@@ -165,9 +235,8 @@
 								</li>
 							</ul>
 						</li>
+
 					</ul>
 				</nav>
-				<!-- /.sidebar-menu -->
 			</div>
-			<!-- /.sidebar -->
 		</aside>

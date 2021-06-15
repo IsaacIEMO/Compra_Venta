@@ -153,7 +153,7 @@
 
         /* PRODUCTS */
 
-        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $descripcion = null){
+        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $descripcion = null){
             if (empty($producto) && empty($categoria) && empty($presentacion)) {
                 echo "Error, no viene datos dentro de los paramentros";
                 exit;
@@ -180,8 +180,10 @@
 
             $consulta = $this->db->insert('producto', $data);
 
+            $fechaBD = date("Y-m-d", strtotime($vencimiento));
+
             //$utilidad = (($stock*$venta)-($stock*$compra));
-            $utilidad = ($venta-$compra);
+            $utilidades = ($venta-$compra);
 
             if ($consulta) {
                 $datos = array(
@@ -192,7 +194,9 @@
                     'stock' => $stock,
                     'precio_compra' => $compra,
                     'precio_venta' => $venta,
-                    'utilidad' => $utilidad,
+                    'utilidad' => $utilidades,
+                    'u_lote' => $utilidad,
+                    'vencimiento' => $fechaBD,
                     'u_registro' => $codigo_usuario
                 );
 
@@ -211,11 +215,45 @@
         }
 
         public function Products_Select(){
-            $consulta = $this->db->order_by('producto', 'ASC')->get_where('producto', array('estado' => 1));
+            $consulta = $this->db->order_by('f_registro ', 'ASC')->get_where('producto', array('estado' => 1));
             return $consulta->result();
         }
 
-        
+        public function Products_Delete($codigo_producto){
+            if (empty($codigo_producto)) {
+                echo "Error, no viene datos";
+                exit;
+            }
+
+            $date = date('Y-m-d H:i:s A');
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'u_eliminacion' => $codigo_usuario,
+                'f_eliminacion' => $date,
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_producto', $codigo_producto);
+            $this->db->update('producto', $data);
+
+            if ($this->db->affected_rows()) {
+                $this->db->where('codigo_producto', $codigo_producto);
+                $this->db->update('inventario', $data);
+
+                if ($this->db->affected_rows()) {
+                    header('location:'.base_url('index.php/Products/category'));
+                    exit;
+                }else {
+                    echo "Error 2";
+                    exit;
+                }
+                
+            }else {
+                echo "Error al guardar datos";
+                exit;
+            }
+        }
 
         /* USERS */
 
@@ -278,6 +316,38 @@
                 exit;
             }else {
                 echo "Error al guardar datos";
+                exit;
+            }
+        }
+
+        public function User_Update($pass, $password, $codigo_usuario){
+            if (empty($pass) && empty($password) && empty($codigo_usuario)) {
+                echo "No vienen datos";
+                exit;
+            }
+
+            $date = date('Y-M-F H:i:s A');
+            $codigo_usuarios = $this->session->userdata('codigo_usuario');
+
+            if ($pass != $password) {
+                echo "Las contraseñas no son iguales";
+                exit;
+            }
+
+            $data = array(
+                'u_actualizacion' => $codigo_usuarios
+                'f_actualizacion' => $date,
+                'password' => md5($password)
+            );
+
+            $this->db->where('codigo_usuario', $codigo_usuario);
+            $this->db->update('auth', $data);
+            
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/category'));
+                exit;
+            }else {
+                echo "Error al actualizar la contraseña";
                 exit;
             }
         }

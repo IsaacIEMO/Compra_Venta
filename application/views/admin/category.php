@@ -31,7 +31,7 @@
               <div class="col-12">
                 <div class="form-group">
                   <label for="produto">Categoria</label>
-                  <input type="text" name="category" id="category" class="form-control" required>
+                  <input type="text" name="category" id="category" class="form-control" required onkeyup="mayus(this);" autofocus>
                 </div>
               </div>
             </div>

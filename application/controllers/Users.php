@@ -26,6 +26,8 @@
             }
         }
 
+
+        /* SQL */
         public function Insert_User(){
             $nombre = $this->input->post('nombre');
             $apellido = $this->input->post('apellido');
@@ -55,6 +57,13 @@
             }
 
             $this->Querys->User_Delete($codigo_usuario);
+        }
+
+        public function Update_User(){
+            $pass = $this->input->post('pass');
+            $password = $this->input->post('password');
+            $user = $this->input->post('user');
+            $this->Querys->User_Update($pass, $password, $user);
         }
     
     }

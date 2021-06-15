@@ -7,7 +7,6 @@
         public function __construct(){
 
         }
-        
             
         public function Ajax($codigo_producto){
             if (empty($codigo_producto)) {
