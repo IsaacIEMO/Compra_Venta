@@ -10,6 +10,7 @@ Codigo{
     SubCategotia:   SCA,
     Usuario:        US,
     Invetario:      IN,
+    Proveedor:      PVR,
     
 };
 

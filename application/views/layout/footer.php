@@ -30,7 +30,7 @@
 <script src="<?= base_url('assets/');?>dist/js/demo.js"></script>
 
 
-<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products"): ?>
+<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation"): ?>
 
 <script src="<?= base_url('assets/');?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -50,11 +50,8 @@
 
 <script src="<?= base_url('assets/');?>plugins/moment/moment.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/inputmask/jquery.inputmask.min.js"></script>
-<!-- date-range-picker -->
 <script src="<?= base_url('assets/');?>plugins/daterangepicker/daterangepicker.js"></script>
-<!-- bootstrap color picker -->
 <script src="<?= base_url('assets/');?>plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
 <script src="<?= base_url('assets/');?>plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
 <script>
@@ -75,31 +72,28 @@
 			"responsive": true,
 		});
 	});
+
 </script>
 
 <script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
+	$(function () {
+		$('.select2').select2()
 
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+		$('.select2bs4').select2({
+			theme: 'bootstrap4'
+		})
 
-    //Date picker
-    $('#reservationdate').datetimepicker({
-        format: 'L'
-    });
+		$('#reservationdate').datetimepicker({
+			format: 'L'
+		});
 
-    //Date range picker
-    $('#reservation').daterangepicker()
+		$('#reservation').daterangepicker()
 
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-  })
+		$('#timepicker').datetimepicker({
+			format: 'LT'
+		})
+	})
+
 </script>
 
 
@@ -112,7 +106,14 @@
 
 </script>
 
-<?php endif; ?>
+<?php 
+	endif; 
+	if($urls === "Store"):
+?>
+	<script src="<?= base_url('assets/');?>dist/js/ajax_producto.js"></script>
+<?php 
+	endif; 
+?>
 
 </body>
 

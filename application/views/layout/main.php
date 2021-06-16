@@ -1,34 +1,29 @@
 <?php
   $url = $this->uri->segment(2);
   $urls = $this->uri->segment(1);
-
-
-	if ($url === "new_products") {
 ?>
-	
-<?php
+
+<script language="JavaScript">
+	function calcular() {
+		var existencia = parseFloat(document.getElementById("stock").value);
+		var precio_compra = parseFloat(document.getElementById("compra").value);
+		var precio_venta = parseFloat(document.getElementById("venta").value);
+		var sub_total = precio_venta - precio_compra;
+		var conDecimal = sub_total.toFixed(2);
+		var total = existencia * conDecimal;
+
+		function separator(total) {
+			var str = total.toString().split(".");
+			str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return str.join(".");
+		}
+
+		var total = document.getElementById("utilidad").value = separator(total);
 	}
-?>
-<script language="JavaScript">  
-		function calcular(){
-			var existencia =  parseFloat( document.getElementById("stock").value);   
-			var precio_compra = parseFloat( document.getElementById("compra").value);            
-			var precio_venta = parseFloat( document.getElementById("venta").value);            
-			var sub_total = precio_venta - precio_compra ;
-			var conDecimal = sub_total.toFixed(2); 
-			var total = existencia * conDecimal; 
 
-			function separator(total) {
-				var str = total.toString().split(".");
-				str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-				return str.join(".");
-			}
+</script>
 
-			var total = document.getElementById("utilidad").value = separator(total);    
-		}   
-
-	</script> 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' ? 'onload="calcular();"' : ' '?>>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : ' '?>>
 	<div class="wrapper">
 
 		<div class="preloader flex-column justify-content-center align-items-center">
@@ -86,7 +81,8 @@
 				</div>
 
 				<nav class="mt-2">
-					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+						data-accordion="false">
 
 						<li class="nav-item">
 							<a href="<?= base_url('index.php/Dashboard');?>"
@@ -150,7 +146,7 @@
 
 						<li class="nav-item <?= $urls === 'Sales' ? 'menu-open' : '' ;?>">
 							<a href="#" class="nav-link <?= $urls === 'Sales' ? 'active' : '' ;?>">
-								<i class="nav-icon fas fa-th"></i>
+								<i class="nav-icon fas fa-store"></i>
 								<p>
 									Ventas
 									<i class="fas fa-angle-left right"></i>

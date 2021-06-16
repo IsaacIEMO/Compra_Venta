@@ -59,7 +59,7 @@
   							<div class="col-lg-3 col-md-3 col-sm-12">
   								<div class="form-group">
   									<label for="stock">Exitencia</label>
-  									<input type="number" name="stock" id="stock" class="form-control" required>
+  									<input type="number" name="stock" id="stock" class="form-control text_v" required>
   								</div>
   							</div>
   						</div>

@@ -13,7 +13,8 @@
         
         public function index(){
             $productos = $this->Querys->Products_Select();
-            $data = array('productos' => $productos);
+            $proveedores = $this->Querys->Supplier_Select();
+            $data = array('productos' => $productos, 'proveedores' => $proveedores);
             if($this->session->userdata('is_logged')){
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
@@ -27,6 +28,19 @@
         public function Ajax_producto(){
             $producto = $this->input->post('producto');
             $this->Ajax_productos->Ajax($producto);
+        }
+
+        public function Insert_Store(){
+            $producto = $this->input->post('producto');
+            $proveedor = $this->input->post('proveedor');
+            $compra = $this->input->post('compra');
+            $venta = $this->input->post('venta');
+            $stock = $this->input->post('stock');
+            $utilidad = $this->input->post('utilidad'); 
+            $descripcion = $this->input->post('descripcion');
+            $categoria = $this->input->post('categoria');
+            $presentacion = $this->input->post('presentacion');
+            $this->Querys->Sales_Insert($producto, $proveedor,$compra, $venta, $stock, $utilidad, $descripcion, $presentacion, $categoria);
         }
     }    
 ?>

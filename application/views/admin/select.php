@@ -78,7 +78,6 @@
   								<td class="text_v">Q <?= number_format($ganancia, 2, '.', ','); ?></td>
   								<td class="text_v">
   									<a href="<?= base_url('index.php/Products/Delete_Product')?>/<?= $item->codigo_producto;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
-  									<!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg" title="Actualizar categoria"><i class="fas fa-sync"></i></button-->
   									<a href="" class="btn btn-success" title="Ventas de categoria"><i class="far fa-list-alt"></i></a>
   									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs<?= $item->codigo_producto; ?>" title="Infomacion General"><i class="fas fa-info-circle"></i></button>
   								</td>
@@ -152,6 +151,13 @@
 															<label for="descripcion">Descripcion</label>
 															<textarea name="descriociin" id="descripcion" class="form-control text_e" cols="30" rows="8" disabled><?= $item->detalles;?></textarea>
 														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-lg-12 col-md-12 col-sm-12">
+														<u class="text_v">
+															<i>*Nota: Los precios que se muestran en esta ventana son por unidad, la ganancia del lote esta en la tabla pricipal.</i>
+														</u>
 													</div>
 												</div>
 											</div>

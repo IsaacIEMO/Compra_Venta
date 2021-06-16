@@ -335,7 +335,7 @@
             }
 
             $data = array(
-                'u_actualizacion' => $codigo_usuarios
+                'u_actualizacion' => $codigo_usuarios,
                 'f_actualizacion' => $date,
                 'password' => md5($password)
             );
@@ -348,6 +348,122 @@
                 exit;
             }else {
                 echo "Error al actualizar la contraseña";
+                exit;
+            }
+        }
+
+        /* PROVEEDORES */
+
+        public function Supplier_Insert($nombre, $telefono = null){
+            if (empty($nombre)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $use = "PVR-".$code;
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'codigo_proveedor' => md5($use),
+                'nombre' => $nombre,
+                'telefono' => $telefono,
+                'u_registro' => $codigo_usuario
+            );
+
+            $consulta = $this->db->insert('proveedor', $data);
+            
+            if ($consulta) {
+                header('location:'.base_url('index.php/Supplier'));
+                exit;
+            }else {
+                echo "Error al guardar datos";
+                exit;
+            }
+        }
+
+        public function Supplier_Select(){
+            $consulta = $this->db->order_by('nombre','ASC')->get_where('proveedor',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function Supplier_Delete($codigo_proveedor){
+            if (empty($codigo_proveedor)) {
+                echo "Error, no viene datos";
+                exit;
+            }
+
+            $date = date('Y-m-d H:i:s A');
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'u_actualizacion' => $codigo_usuario,
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_proveedor', $codigo_proveedor);
+            $this->db->update('proveedor', $data);
+
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Supplier'));
+                exit;
+            }else {
+                echo "No se pudo pudo eliminar el dato solicitado";
+                exit;
+            }
+            
+            
+        }
+
+        /* COMPRAS */
+
+        public function Sales_Insert($producto, $proveedor = null, $compra, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
+            if (empty($producto) && empty($proveedor) && empty($compra) && empty($venta) && empty($stock) && empty($utilidad)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $sales = "PVR-".$code;
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'codigo_compra' => md5($sales),
+                'codigo_proveedor' => $proveedor,
+                'codigo_categoria' => $categoria,
+                'codigo_presentacion' => $presentacion,
+                'stock' => $stock,
+                'precio_compra' => $compra,
+                'precio_venta' => $venta,
+                'utilidad' => $utilidad,
+                'descripcion' => $descripcion,
+                'u_registro' => $codigo_usuario
+            );
+
+            $consulta = $this->db->insert('compras', $data);
+            if ($consulta) {
+                $datas = array(
+                    'stock' => $stock,
+                    'precio_compra' => $compra,
+                    'precio_venta' => $venta,
+                    'utilidad' => ($venta - $compra),
+                    'u_lote' => $utilidad
+                );
+
+                $this->db->where('codigo_producto', $producto);
+                $this->db->update('inventario', $datas);
+                
+                if ($this->db->affected_rows()) {
+                    header('location:'.base_url('index.php/Store'));
+                }
+            }else {
+                echo "Error, no se guardaron los datos de compra";
                 exit;
             }
         }
