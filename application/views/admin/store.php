@@ -25,10 +25,10 @@
   				<form method="POST" action="<?= base_url('assets/');?>Store/Insert_Store">
   					<div class="card-body">
   						<div class="row">
-  							<div class="col-lg-6 col-md-6 col-sm-12" style="width: 100%;">
+  							<div class="col-lg-6 col-md-6 col-sm-12">
   								<div class="form-group">
   									<label for="producto">Producto</label>
-  									<select name="producto" id="producto" class="form-control select2" required>
+  									<select name="producto" id="producto" class="form-control select2" required style="width: 100%;">
   										<option selected>Productos</option>
   										<?php 
 									  		foreach($productos as $item): 

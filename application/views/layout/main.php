@@ -23,7 +23,7 @@
 
 </script>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : ' '?>>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : ''?>>
 	<div class="wrapper">
 
 		<div class="preloader flex-column justify-content-center align-items-center">
@@ -155,10 +155,10 @@
 							<ul class="nav nav-treeview">
 
 								<li class="nav-item">
-									<a href="<?= base_url('index.php/Products/new_products');?>"
-										class="nav-link <?= $url === 'new_products' ? 'active' : '' ;?>">
+									<a href="<?= base_url('index.php/Sales/Sales');?>"
+										class="nav-link <?= $url === 'Sales' ? 'active' : '' ;?>">
 										<i class="far fa-edit nav-icon"></i>
-										<p>Venta de producto</p>
+										<p>Nueva venta</p>
 									</a>
 								</li>
 

@@ -8,7 +8,6 @@
             parent::__construct();
             $this->load->model('Querys');
             $this->load->model('Ajax_productos');
-            
         }
         
         public function index(){
@@ -40,7 +39,7 @@
             $descripcion = $this->input->post('descripcion');
             $categoria = $this->input->post('categoria');
             $presentacion = $this->input->post('presentacion');
-            $this->Querys->Sales_Insert($producto, $proveedor,$compra, $venta, $stock, $utilidad, $descripcion, $presentacion, $categoria);
+            $this->Querys->Sales_Insert($producto, $proveedor, $compras, $venta, $stock, $utilidad, $descripcion, $presentacion, $categoria);
         }
     }    
 ?>

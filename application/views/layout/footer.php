@@ -5,11 +5,7 @@
 <aside class="control-sidebar control-sidebar-dark"></aside>
 
 <footer class="main-footer">
-	<strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-	All rights reserved.
-	<div class="float-right d-none d-sm-inline-block">
-		<b>Version</b> 3.1.0
-	</div>
+	<strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. <div class="float-right d-none d-sm-inline-block"> <b>Version</b> 3.1.0 </div>
 </footer>
 </div>
 
@@ -30,7 +26,7 @@
 <script src="<?= base_url('assets/');?>dist/js/demo.js"></script>
 
 
-<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation"): ?>
+<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales"): ?>
 
 <script src="<?= base_url('assets/');?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -113,7 +109,10 @@
 	<script src="<?= base_url('assets/');?>dist/js/ajax_producto.js"></script>
 <?php 
 	endif; 
+	if($url === "Sales"):
 ?>
+	<script src="<?= base_url('assets/');?>dist/js/productos.js"></script>
+<?php endif; ?>
 
 </body>
 

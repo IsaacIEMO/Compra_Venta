@@ -420,7 +420,7 @@
 
         /* COMPRAS */
 
-        public function Sales_Insert($producto, $proveedor = null, $compra, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
+        /*public function Sales_Insert($producto, $proveedor = null, $compras = null, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
             if (empty($producto) && empty($proveedor) && empty($compra) && empty($venta) && empty($stock) && empty($utilidad)) {
                 echo "Error, no vienen datos";
                 exit;
@@ -466,6 +466,6 @@
                 echo "Error, no se guardaron los datos de compra";
                 exit;
             }
-        }
+        }*/
     }
 ?>
