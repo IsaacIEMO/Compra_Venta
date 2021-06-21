@@ -25,8 +25,21 @@
         }
 
         public function Ajax_producto(){
-            $productos = $this->input->post('productos');
-            $this->productos_ajax->Ajax($productos);
+            $producto = $this->input->post('producto');
+            $this->productos_ajax->Ajax($producto);
+        }
+        
+        public function Ajax_precio(){
+            $producto = $this->input->post('producto');
+            $this->productos_ajax->Ajax_precios($producto);
+        }
+
+        public function Insert_Detalle_Sales(){
+            $op = $this->input->post('op');
+            $producto = $this->input->post('producto');
+            $old = $this->input->post('old');
+            $stock = $this->input->post('stock');
+            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock);
         }
     }
 ?>

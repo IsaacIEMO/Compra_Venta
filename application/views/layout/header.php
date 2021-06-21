@@ -28,4 +28,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/daterangepicker/daterangepicker.css">
   <?php endif; ?>
 
+  <?php if($url === "Sales"): ?>
+    <link rel="stylesheet" href="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.css">
+    <link rel="stylesheet" href="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.min.css">
+  <?php endif;?>
+
 </head>

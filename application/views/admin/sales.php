@@ -29,7 +29,7 @@
                                    <div class="col-lg-4 col-md-4 col-sm-12">
                                         <div class="form-group">
                                              <label for="nombre">Cliente</label>
-                                             <input type="text" name="nombre" id="nombre" class="form-control">
+                                             <input type="text" name="nombre" id="nombre" class="form-control" autofocus>
                                         </div>
                                    </div>
                                    <div class="col-lg-4 col-md-4 col-sm-12">
@@ -47,10 +47,10 @@
                               </div>
 
                               <div class="row">
-                                   <div class="col-lg-8 col-md-8 col-sm-12" >
+                                   <div class="col-lg-6 col-md-6 col-sm-12" >
                                         <div class="form-group">
-                                             <label for="produc">Listado de productos</label>
-                                             <select name="produc" id="produc" class="form-control select2" style="width: 100%;">
+                                             <label for="producto">Listado de productos</label>
+                                             <select name="producto" id="producto" class="form-control select2" style="width: 100%;">
                                                   <option value="0">Productos</option>
                                                   <?php 
                                                        foreach($productos as $item): 
@@ -70,13 +70,36 @@
                                              </select>
                                         </div>
                                    </div>
-                                   <div class="col-lg-2 col-md-2 col-sm-6">
-                                        
+                                   <div class="col-lg-3 col-md-3 col-sm-6">
+                                        <div class="stock_actual">
+                                             <label for="old">Existencia</label>
+                                             <input type="text" name="old" id="old" class="form-control text_v" readonly step="any">
+                                        </div>
                                    </div>
-                                   <div class="col-lg-2 col-md-2 col-sm-6">
+                                   <div class="col-lg-3 col-md-3 col-sm-6">
+                                        <div class="precio">
+                                             <label for="precio">Precio</label>
+                                             <input type="text" name="precio" id="precio" class="form-control text_v" readonly step="any">
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="row">
+                                   <div class="col-lg-4 col-md-4 col-sm-6">
                                         <div class="form-group">
                                              <label for="stock">Cantidad</label>
-                                             <input type="number" name="stock" id="stock" class="form-control">
+                                             <input type="number" name="stock" id="stock" class="form-control text_v" onkeyup="calcula();">
+                                        </div>
+                                   </div>
+                                   <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <div class="form-group">
+                                             <label for="subtotal">Sub total</label>
+                                             <input type="number" name="subtotal" id="subtotal" class="form-control text_v" readonly>
+                                        </div>
+                                   </div>
+                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                             <label for=""></label>
+                                             <button type="button" class="btn btn-block btn-info" onclick="detalles();">Agregar</button>
                                         </div>
                                    </div>
                               </div>
@@ -84,6 +107,7 @@
                               <div class="row">
                                    <div class="detalle"></div>
                               </div>
+
 					</div>
 					<div class="card-footer">
 						<div class="form-group">

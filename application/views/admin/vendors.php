@@ -28,7 +28,7 @@
   							<div class="col-lg-6 col-md-6 col-sm-6">
   								<div class="form-group">
   									<label for="nombre">Nombre del Proveedor</label>
-  									<input type="text" name="nombre" id="nombre" class="form-control">
+  									<input type="text" name="nombre" id="nombre" class="form-control" autofocus>
   								</div>
   							</div>
   							<div class="col-lg-6 col-md-6 col-sm-6">

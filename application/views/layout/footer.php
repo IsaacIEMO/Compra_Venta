@@ -112,6 +112,12 @@
 	if($url === "Sales"):
 ?>
 	<script src="<?= base_url('assets/');?>dist/js/productos.js"></script>
+	<script src="<?= base_url('assets/');?>dist/js/precios.js"></script>
+	<script src="<?= base_url('assets/');?>dist/js/detalle_factura.js"></script>
+	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.all.js"></script>
+	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.all.min.js"></script>
+	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.js"></script>
+	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.min.js"></script>
 <?php endif; ?>
 
 </body>

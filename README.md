@@ -11,6 +11,7 @@ Codigo{
     Usuario:        US,
     Invetario:      IN,
     Proveedor:      PVR,
+    Detalles:       DTL,
     
 };
 

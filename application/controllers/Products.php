@@ -18,7 +18,7 @@
         /* VIEW'S */
 
         public function Store(){
-           
+           show_404();
         }
 
         public function new_products(){
@@ -96,6 +96,14 @@
             }
 
             $this->Querys->Products_Delete($codigo_producto);
+        }
+
+        public function Update_Stock(){
+            $codigo_producto = $this->input->post('codigo_producto');
+            $old = $this->input->post('old');
+            $new = $this->input->post('new');
+            $utilidad = $this->input->post('utilidad');
+            $this->Querys->Products_Update_Stock($codigo_producto, $old, $new, $utilidad);
         }
     
     }

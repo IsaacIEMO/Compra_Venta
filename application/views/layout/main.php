@@ -21,9 +21,24 @@
 		var total = document.getElementById("utilidad").value = separator(total);
 	}
 
+	function calcula() {
+		var precio = parseFloat(document.getElementById("precio").value);
+		var stock = parseFloat(document.getElementById("stock").value);
+		var subtotal = precio * stock;
+		var total = subtotal.toFixed(2);
+
+		function separator(total) {
+			var str = total.toString().split(".");
+			str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return str.join(".");
+		}
+
+		var total = document.getElementById("subtotal").value = separator(total);
+	}
+
 </script>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : ''?>>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : 'onload="calcula();"'?>>
 	<div class="wrapper">
 
 		<div class="preloader flex-column justify-content-center align-items-center">
@@ -161,22 +176,7 @@
 										<p>Nueva venta</p>
 									</a>
 								</li>
-
-								<li class="nav-item">
-									<a href="<?= base_url('index.php/Products/list_products');?>"
-										class="nav-link <?= $url === 'list_products' ? 'active' : '' ;?>">
-										<i class="far fa-list-alt nav-icon"></i>
-										<p>Inventario</p>
-									</a>
-								</li>
-
-								<li class="nav-item">
-									<a href="<?= base_url('index.php/Products/category');?>"
-										class="nav-link <?= $url === 'category' ? 'active' : '' ;?>">
-										<i class="fas fa-plus nav-icon"></i>
-										<p>Categorias</p>
-									</a>
-								</li>
+								
 							</ul>
 						</li>
 

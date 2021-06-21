@@ -1,12 +1,12 @@
 $('#producto').change(function () {
-	$.post('../Sales/Ajax_producto', {
+	$.post('../Sales/Ajax_precio', {
 		producto: $('#producto').val(),
 
 			beforeSend: function () {
-				$('.stock_actual').html("Espere un momento porfavor...");
+				$('.precio').html("Espere un momento porfavor...");
 			}
 		},
 		function (respuesta) {
-			$('.stock_actual').html(respuesta);
+			$('.precio').html(respuesta);
 		});
 });

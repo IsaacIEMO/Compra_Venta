@@ -255,6 +255,36 @@
             }
         }
 
+        public function Products_Update_Stock($codigo_producto, $old, $new, $utilidad){
+            if (empty($codigo_producto) && empty($old) && empty($new)) {
+                echo "No viene datos";
+                exit;
+            }
+
+            $date = date('Y-M-F H:i:s A');
+            $codigo_usuarios = $this->session->userdata('codigo_usuario');
+
+            $new_utilidad = $utilidad * $new;
+
+            $data = array(
+                'stock' => $new,
+                'u_lote' => $new_utilidad,
+                'u_actualizacion' => $codigo_usuarios,
+                'f_actualizacion' => $date
+            );
+
+            $this->db->where('codigo_producto', $codigo_producto);
+            $this->db->update('inventario', $data);
+            
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/list_products'));
+                exit;
+            }else {
+                echo "Error al actualizar la contraseña";
+                exit;
+            }
+        }
+
         /* USERS */
 
         public function Users_Insert($nombre, $apellido, $rol, $user, $pass, $password){
@@ -420,7 +450,7 @@
 
         /* COMPRAS */
 
-        /*public function Sales_Insert($producto, $proveedor = null, $compras = null, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
+        public function Sales_Insert($producto, $proveedor = null, $compras = null, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
             if (empty($producto) && empty($proveedor) && empty($compra) && empty($venta) && empty($stock) && empty($utilidad)) {
                 echo "Error, no vienen datos";
                 exit;
@@ -439,7 +469,7 @@
                 'codigo_categoria' => $categoria,
                 'codigo_presentacion' => $presentacion,
                 'stock' => $stock,
-                'precio_compra' => $compra,
+                'precio_compra' => $compras,
                 'precio_venta' => $venta,
                 'utilidad' => $utilidad,
                 'descripcion' => $descripcion,
@@ -450,9 +480,9 @@
             if ($consulta) {
                 $datas = array(
                     'stock' => $stock,
-                    'precio_compra' => $compra,
+                    'precio_compra' => $compras,
                     'precio_venta' => $venta,
-                    'utilidad' => ($venta - $compra),
+                    'utilidad' => ($venta - $compras),
                     'u_lote' => $utilidad
                 );
 
@@ -466,6 +496,33 @@
                 echo "Error, no se guardaron los datos de compra";
                 exit;
             }
-        }*/
+        }
+
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock){
+            if ($op === "insert_detalles") {
+                if (empty($producto) && empty($old) && empty($stock)) {
+                    echo "Error, no viene datos ";
+                    exit;
+                }
+
+
+                $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                $code = "";
+                $longitud=4;
+                for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+                $detalle = "DTL-".$code;
+                $codigo_usuario = $this->session->userdata('codigo_usuario');
+                
+
+                $data = array(
+                    'codigo_detalle' => md5($detalle),
+                    'codigo_usuario' => $codigo_usuario,
+                    'codigo_producto' => $producto,
+                    'cantidad' => $stock
+                );
+            }else {
+                echo "Error en el op";
+            }
+        }
     }
 ?>
