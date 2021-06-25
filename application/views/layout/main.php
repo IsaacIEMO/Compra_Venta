@@ -33,7 +33,7 @@
 			return str.join(".");
 		}
 
-		var total = document.getElementById("subtotal").value = separator(total);
+		var total = document.getElementById("subtotal").value = (total);
 	}
 
 </script>
@@ -174,6 +174,14 @@
 										class="nav-link <?= $url === 'Sales' ? 'active' : '' ;?>">
 										<i class="far fa-edit nav-icon"></i>
 										<p>Nueva venta</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Sales/Sales_L');?>"
+										class="nav-link <?= $url === 'Sales_L' ? 'active' : '' ;?>">
+										<i class="far fa-edit nav-icon"></i>
+										<p>Listado de ventas</p>
 									</a>
 								</li>
 								

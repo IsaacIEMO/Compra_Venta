@@ -22,14 +22,14 @@
 				<div class="card-header">
 					<h3 class="card-title">Nueva Venta</h3>
 				</div>
-				<form action="<?= base_url('index.php/Sales/Ajax');?>" method="post">
+				<form action="<?= base_url('index.php/Sales/Insert_Sales');?>" method="post">
 					<div class="card-body">
                          
                               <div class="row">
                                    <div class="col-lg-4 col-md-4 col-sm-12">
                                         <div class="form-group">
                                              <label for="nombre">Cliente</label>
-                                             <input type="text" name="nombre" id="nombre" class="form-control" autofocus>
+                                             <input type="text" name="nombre" id="nombre" class="form-control" autofocus required>
                                         </div>
                                    </div>
                                    <div class="col-lg-4 col-md-4 col-sm-12">
@@ -90,30 +90,94 @@
                                              <input type="number" name="stock" id="stock" class="form-control text_v" onkeyup="calcula();">
                                         </div>
                                    </div>
-                                   <div class="col-lg-4 col-md-4 col-sm-6">
+                                   <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="form-group">
                                              <label for="subtotal">Sub total</label>
                                              <input type="number" name="subtotal" id="subtotal" class="form-control text_v" readonly>
                                         </div>
                                    </div>
-                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                   <div class="col-lg-2 col-md-2 col-sm-12">
                                         <div class="form-group">
                                              <label for=""></label>
                                              <button type="button" class="btn btn-block btn-info" onclick="detalles();">Agregar</button>
                                         </div>
                                    </div>
                               </div>
+                              
+                              <br><hr><br>
 
                               <div class="row">
-                                   <div class="detalle"></div>
+                                   <div class="col-12">
+                                        <table id="example2" class="table table-bordered">
+                                             <thead>
+                                                  <tr>
+                                                       <th>Codigo</th>
+                                                       <th>Producto</th>
+                                                       <th>Cantidad</th>
+                                                       <th>Subtotal</th>
+                                                       <th>Acciones</th>
+                                                  </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <?php foreach($detalles as $item): ?>
+                                                  <tr>
+                                                       <?php
+                                                            $codigo_producto = $item->codigo_producto;
+                                                            $this->db->select('*');
+                                                            $this->db->from('producto');
+                                                            $this->db->where('codigo_producto', $codigo_producto);
+                                                            $consulta = $this->db->get();
+                                                            foreach($consulta->result() as $prod);
+                                                            $codigo = $prod->codigo;
+                                                            $producto = $prod->producto;
+                                                            $codigo_presentacion = $prod->codigo_presentacion;
+
+                                                            $this->db->select('presentacion');
+                                                            $this->db->from('presentacion');
+                                                            $this->db->where(array('codigo_presentacion' => $codigo_presentacion, 'estado' => 1));
+                                                            $cons = $this->db->get();
+                                                            foreach($cons->result() as $pres);
+                                                            $presentacion = $pres->presentacion;
+                                                       ?>
+                                                       <td class="text_v"><?= $codigo; ?></td>
+                                                       <td class="text_v"><?= $producto; ?> <?= $presentacion; ?></td>
+                                                       <td class="text_v"><?= $item->cantidad; ?></td>
+                                                       <td class="text_v">Q  <?=  number_format($item->subtotal, 2, '.', ','); ?></td>
+                                                       <td class="text_v">
+                                                            <a href="<?= base_url('index.php/Sales/Delete_Product_Detalle')?>/<?= $item->codigo_detalle;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
+                                                       </td>
+                                                  </tr>
+                                        
+                                                 
+                                                  <?php endforeach; ?>
+                                             </tbody>
+                                             <tfoot>
+                                                  <tr>
+                                                       <th>Codigo</th>   
+                                                       <th>Producto</th>
+                                                       <th>Cantidad</th>
+                                                       <th>Subtotal</th>
+                                                       <th>Acciones</th>
+                                                  </tr>
+                                             </tfoot>
+                                        </table>
+                                   </div>
                               </div>
 
 					</div>
 					<div class="card-footer">
-						<div class="form-group">
-							<div class="col-12">
-
-							</div>
+                              <div class="row">
+                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                             <a href="<?= base_url('index.php/Sales/Delete_Detalle')?>" class="btn btn-block btn-danger text_v">Cancelar</a>
+                                        </div>
+                                   </div>
+                                   <div class="col-lg-4 col-md-4 col-sm-12"></div>
+                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                             <button type="submit" class="btn btn-block btn-success text_v">Comprar</button>
+                                        </div>
+                                   </div>
 						</div>
 					</div>
 				</form>

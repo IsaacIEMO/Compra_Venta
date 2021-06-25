@@ -2,6 +2,7 @@ function detalles() {
 	var producto = $("#producto").val();
 	var stock = $("#stock").val();
 	var subtotal = $("#subtotal").val();
+	var precio = $("#precio").val();
 	var ok = true;
 	var msg = "\n";
 
@@ -12,12 +13,17 @@ function detalles() {
 
 	if (subtotal == "0" || subtotal == "") {
 		ok = false;
-		msg += " - Existencia Actual";
+		msg += " - Sub Total";
 	}
 
 	if (stock == "0" || stock == "") {
 		ok = false;
 		msg += " - Nueva Existencia";
+	}
+	
+	if (precio == "0" || precio == "") {
+		ok = false;
+		msg += " - Precio";
 	}
 
 	if (ok == false) {
@@ -31,7 +37,7 @@ function detalles() {
 			confirmButtonText: 'Deseas Continuar?'
 		}).then((result) => {
 			if (result.value) {
-				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock }, function (data) {
+				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio }, function (data) {
 					if (data == 1) {
                         if (result.value) {
                             location.reload();
@@ -47,15 +53,14 @@ function detalles() {
 			}
 		})
 	} else {
-		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock }, function (data) {
+		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio }, function (data) {
 			if (data == 1) {
-                if (result.value) {
-                    location.reload();
-                }
+				location.reload();
+                
             } else {
                 Swal.fire(
                     'Oops...',
-                    'No hemos podido encontrar tu usuario',
+                    'No pudimos enviar tu informacion',
                     'error'
                 )
             }

@@ -498,7 +498,7 @@
             }
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
@@ -518,11 +518,135 @@
                     'codigo_detalle' => md5($detalle),
                     'codigo_usuario' => $codigo_usuario,
                     'codigo_producto' => $producto,
-                    'cantidad' => $stock
+                    'cantidad' => $stock,
+                    'precio' => $precio,
+                    'subtotal' => ($stock*$precio),
+                    'estado' => 2
                 );
+
+                $consulta = $this->db->insert('detalle_factura', $data);
+                if ($consulta) {
+                    echo 1;
+                    exit;
+                }else {
+                    echo "error";
+                }
             }else {
                 echo "Error en el op";
             }
         }
+
+        public function Sales_Detalle_Select(){
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+            $consulta = $this->db->order_by('hora','ASC')->get_where('detalle_factura',array('codigo_usuario' => $codigo_usuario ,'estado' => 2));    
+            return $consulta->result();
+        }
+
+        public function Sales_Detalle_Delete($codigo_detalle){
+            if (empty($codigo_detalle)) {
+                echo "Error, no viene datos";
+                exit;
+            }
+
+            $data = array(
+                'estado' => 0
+            );
+
+            $this->db->where('codigo_detalle', $codigo_detalle);
+            $this->db->update('detalle_factura', $data);
+
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Sales/Sales'));
+                exit;
+            }else {
+                echo "No se pudo pudo eliminar el dato solicitado";
+                exit;
+            }
+        }
+
+        public function Sales_Delete_D($codigo_usuario){
+
+            $data = array(
+                'estado' => 0
+            );
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $this->db->where('codigo_usuario', $codigo_usuario);
+            $this->db->update('detalle_factura', $data);
+
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Sales/Sales'));
+                exit;
+            }else {
+                echo "No se pudo pudo eliminar el dato solicitado";
+                exit;
+            }
+        }
+
+        public function Sale_Insert($nombre, $direccion = null, $telefono = null){
+            if (empty($nombre) && empty($direccion) && empty($telefono)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $this->db->select_sum('subtotal', 'total');
+            $this->db->where('codigo_usuario', $codigo_usuario);
+            $this->db->where('estado', 2);
+            $query = $this->db->get('detalle_factura');
+            $resultado = $query->result();
+            $total = $resultado[0]->total;
+
+            $anio = date('Y'); 
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=5;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $factura = "FAC-".$anio."-".$code;
+
+            $data = array(
+                'codigo_factura' => md5($factura),
+                'codigo_usuario' => $codigo_usuario,
+                'correlativo' => $factura,
+                'cliente' => $nombre,
+                'direccion' => $direccion,
+                'telefono' => $telefono,
+                'total' => $total
+            );
+
+            $consulta = $this->db->insert('factura', $data);
+            if ($consulta) {
+                $datas = array(
+                    'codigo_factura' => md5($factura),
+                    'estado' => 1
+                );
+                $this->db->where('codigo_usuario', $codigo_usuario);
+                $this->db->where('estado', 2);
+                $this->db->update('detalle_factura', $datas);
+                if ($this->db->affected_rows()) {
+                    header('location:'.base_url('index.php/Dashboard'));
+                    exit;
+                }else {
+                    echo "Error al generar el detalle";
+                    exit;
+                }
+            }else {
+                echo "Error al guardar la factura";
+                exit;
+            }
+        }
+
+        public function Sales_Select(){
+            $consulta = $this->db->order_by('fecha','desc')->get_where('factura',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function Sales_Select_W($where){
+            $consulta = $this->db->order_by('fecha','desc')->get_where('factura', $where);    
+            return $consulta->result();
+        }
+
     }
 ?>

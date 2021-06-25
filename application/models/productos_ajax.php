@@ -33,7 +33,7 @@
             foreach($consulta->result() as $item):
             ?>
                 <label for="precio">Precio</label>
-                <input type="text" name="precio" id="precio" class="form-control text_v" value="<?= $item->precio_venta ;?>" readonly>
+                <input type="text" name="precio" id="precio" class="form-control text_v" step="any" value="<?= $item->precio_venta ;?>" readonly>
             <?php
             endforeach;
         }
