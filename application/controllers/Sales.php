@@ -17,13 +17,17 @@
         }
 
         public function Sales(){
-            $productos = $this->Querys->Products_Select();
-            $detalle = $this->Querys->Sales_Detalle_Select();
-            $data = array('productos' => $productos, 'detalles' => $detalle);
-            $this->load->view('layout/header');
-            $this->load->view('layout/main');
-            $this->load->view('admin/sales', $data);
-            $this->load->view('layout/footer');
+            if($this->session->userdata('is_logged')){
+                $productos = $this->Querys->Products_Select();
+                $detalle = $this->Querys->Sales_Detalle_Select();
+                $data = array('productos' => $productos, 'detalles' => $detalle);
+                $this->load->view('layout/header');
+                $this->load->view('layout/main');
+                $this->load->view('admin/sales', $data);
+                $this->load->view('layout/footer');
+            }else {
+                show_404();
+            }
         }
 
         public function Ajax_producto(){
@@ -99,6 +103,8 @@
     
                 $printer = new Escpos\Printer($connector);
     
+                /* PARTE 1 */
+
                 /* Encabezado */
                 $printer->text("           COMERCIALIZADORA EL RANCHO\n");
                 $printer->text("             San Martín Jilotepeque\n");
@@ -133,7 +139,12 @@
                         $producto = $prod->producto; 
                         $presetacion = $prod->presentacion; 
                     endforeach;
-                    $printer->text($stock."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    if($stock > 10): 
+                        $s = $stock; 
+                    else: 
+                        $s = "0".$stock; 
+                    endif;
+                    $printer->text($s."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
                     
                 endforeach;
                 $printer->text("\n\n");
@@ -149,6 +160,68 @@
                 $printer->text("FECHA: ".$fecha."\n");
                 /* Pie de Pagina */
                 $printer -> cut();
+                
+                
+                /* PARTE 2 */
+
+                /* Encabezado */
+                $printer->text("           COMERCIALIZADORA EL RANCHO\n");
+                $printer->text("             San Martín Jilotepeque\n");
+                $printer->text("           Tel: 4529-3828 El Rancho\n");
+                $printer->text("         Tel: 4665-2910 Tierra Colorado\n");
+                $printer->text("         -------------------------------\n");
+                $printer->text("               COMPROBANTE DE VENTA\n");
+                $printer->text("         -------------------------------\n");
+                $printer->text("                      COPIA\n");
+                $printer->text("         -------------------------------\n");
+                /* Encabezado */
+
+                /* Cuerpo */
+                $printer->text("\n\n");
+                $printer->text("CLIENTE: ".$cliente."\n");
+                $printer->text("DIRECCION: ".$direccion."\n");
+                $printer->text("TELEFONO: ".$telefono."\n");
+
+                $printer->text("\n\n");
+                
+                $printer->text("Productos:                           Subtotal: \n");
+                foreach($consulta->result() as $detalle):
+                    $stock = $detalle->cantidad;
+                    $codigo_producto = $detalle->codigo_producto;
+                    $precio = $detalle->precio;
+                    $subtotal = $detalle->subtotal;
+                    $this->db->select('*');
+                    $this->db->from('inventario');
+                    $this->db->join('presentacion', 'presentacion.codigo_presentacion = inventario.codigo_presentacion');
+                    $this->db->join('producto', 'producto.codigo_producto = inventario.codigo_producto');
+                    $this->db->where('inventario.codigo_producto', $codigo_producto);
+                    $productos = $this->db->get();
+                    foreach($productos->result() as $prod):
+                        $producto = $prod->producto; 
+                        $presetacion = $prod->presentacion; 
+                    endforeach;
+                    if($stock > 10): 
+                        $s = $stock; 
+                    else: 
+                        $s = "0".$stock; 
+                    endif;
+                    $printer->text($s."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    
+                endforeach;
+                $printer->text("\n\n");
+                $printer->text("         -------------------------------\n");
+                $printer->text("               TOTAL: Q ".number_format($total, 2, '.', ',')."\n");
+                $printer->text("         -------------------------------\n");
+
+                /* Cuerpo */
+
+                /* Pie de Pagina */
+                $printer->text("CAJERO: ".$nombre_usuario."\n");
+                $printer->text("CORRELATIVO: ".$correlativo."\n");
+                $printer->text("FECHA: ".$fecha."\n");
+                /* Pie de Pagina */
+                $printer -> cut();
+
                 $printer -> close();
     			header('location:'.base_url('index.php/Sales/Sales_L'));
 
@@ -156,6 +229,10 @@
                 echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
             }
             
+        }
+
+        public function Update($codigo_factura){
+            $this->Querys->Update_Stock($codigo_factura);
         }
     }
 ?>

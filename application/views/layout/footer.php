@@ -26,7 +26,7 @@
 <script src="<?= base_url('assets/');?>dist/js/demo.js"></script>
 
 
-<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" || $url === "Sales_L"): ?>
+<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" || $url === "Sales_L" || $urls === "Dashboard"): ?>
 
 <script src="<?= base_url('assets/');?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -42,7 +42,7 @@
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/daterangepicker/daterangepicker.js"></script>
 
-
+<script src="<?= base_url('assets/');?>plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
 <script src="<?= base_url('assets/');?>plugins/moment/moment.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/inputmask/jquery.inputmask.min.js"></script>

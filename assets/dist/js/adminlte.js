@@ -2085,7 +2085,7 @@
     highlightName: true,
     highlightPath: false,
     highlightClass: 'text-light',
-    notFoundText: 'No element found!'
+    notFoundText: 'No hay resultados'
   };
   var SearchItems = [];
   /**
@@ -2240,6 +2240,8 @@
         href: link,
         class: 'list-group-item'
       });
+      console.log($__default['default']);
+      console.log(link);
       var searchTitleElement = $__default['default']('<div/>', {
         class: 'search-title'
       }).html(name);

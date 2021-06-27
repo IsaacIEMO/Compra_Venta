@@ -16,9 +16,9 @@
         }
 
         public function Presentation(){
-            $presentacion = $this->Querys->Presentacion_Select();
-            $data = array('presentacion' => $presentacion);
             if($this->session->userdata('is_logged')){
+                $presentacion = $this->Querys->Presentacion_Select();
+                $data = array('presentacion' => $presentacion);
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
                 $this->load->view('admin/presentation', $data);

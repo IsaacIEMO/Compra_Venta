@@ -153,7 +153,7 @@
 
         /* PRODUCTS */
 
-        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $descripcion = null){
+        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $libras, $descripcion = null){
             if (empty($producto) && empty($categoria) && empty($presentacion)) {
                 echo "Error, no viene datos dentro de los paramentros";
                 exit;
@@ -186,19 +186,38 @@
             $utilidades = ($venta-$compra);
 
             if ($consulta) {
-                $datos = array(
-                    'codigo_inventario' => md5('IN-'.$code),
-                    'codigo_categoria' => $categoria,
-                    'codigo_producto' => $codigo_producto,
-                    'codigo_presentacion' => $presentacion,
-                    'stock' => $stock,
-                    'precio_compra' => $compra,
-                    'precio_venta' => $venta,
-                    'utilidad' => $utilidades,
-                    'u_lote' => $utilidad,
-                    'vencimiento' => $fechaBD,
-                    'u_registro' => $codigo_usuario
-                );
+
+                if ($libras > 0) {
+                    $datos = array(
+                        'codigo_inventario' => md5('IN-'.$code),
+                        'codigo_categoria' => $categoria,
+                        'codigo_producto' => $codigo_producto,
+                        'codigo_presentacion' => $presentacion,
+                        'stock' => $stock,
+                        'precio_compra' => $compra,
+                        'precio_venta' => $libras,
+                        'libras' => 100,
+                        'utilidad' => (-1 * $utilidades),
+                        'u_lote' => $utilidad,
+                        'vencimiento' => $fechaBD,
+                        'u_registro' => $codigo_usuario
+                    );
+                
+                }else {
+                    $datos = array(
+                        'codigo_inventario' => md5('IN-'.$code),
+                        'codigo_categoria' => $categoria,
+                        'codigo_producto' => $codigo_producto,
+                        'codigo_presentacion' => $presentacion,
+                        'stock' => $stock,
+                        'precio_compra' => $compra,
+                        'precio_venta' => $venta,
+                        'utilidad' => $utilidades,
+                        'u_lote' => $utilidad,
+                        'vencimiento' => $fechaBD,
+                        'u_registro' => $codigo_usuario
+                    );
+                }
 
                 $query = $this->db->insert('inventario', $datos);
                 if ($query) {
@@ -216,6 +235,16 @@
 
         public function Products_Select(){
             $consulta = $this->db->order_by('f_registro ', 'ASC')->get_where('producto', array('estado' => 1));
+            return $consulta->result();
+        }
+        
+        public function Products_Select_row(){
+            $consulta = $this->db->order_by('f_registro ', 'ASC')->get_where('producto', array('estado' => 1));
+            return $consulta->num_rows();
+        }
+        
+        public function Products_Select_v(){
+            $consulta = $this->db->limit(10)->order_by('vencimiento ', 'ASC')->get_where('inventario', array('estado' => 1));
             return $consulta->result();
         }
 
@@ -242,7 +271,7 @@
                 $this->db->update('inventario', $data);
 
                 if ($this->db->affected_rows()) {
-                    header('location:'.base_url('index.php/Products/category'));
+                    header('location:'.base_url('index.php/Products/list_products'));
                     exit;
                 }else {
                     echo "Error 2";
@@ -285,6 +314,46 @@
             }
         }
 
+        public function Products_Update_Cash($old_c, $new_c, $codigo_producto, $old_v, $new_v, $stock){
+            if (empty($codigo_producto) && empty($stock)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            if ($new_c != 0) {
+                $compra = $new_c;
+            }else {
+                $compra = $old_c;
+            }
+
+            if ($new_v != 0) {
+                $venta = $new_v;
+            }else {
+                $venta = $old_v;
+            }
+
+            $utilidad = $venta-$compra;
+            $utilidad_l = $utilidad * $stock;
+
+            $date = date('Y-M-F H:i:s A');
+            $codigo_usuarios = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'precio_compra' => $compra,
+                'precio_venta' => $venta,
+                'utilidad' => $utilidad,
+                'u_actualizacion' => $codigo_usuarios,
+                'f_actualizacion' => $date
+            );
+
+            $this->db->where('codigo_producto', $codigo_producto);
+            $this->db->update('inventario', $data);
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/list_products'));
+                exit;
+            }
+        }
+
         /* USERS */
 
         public function Users_Insert($nombre, $apellido, $rol, $user, $pass, $password){
@@ -323,8 +392,13 @@
         }
     
         public function Users_Select(){
-            $consulta = $this->db->order_by('nombre','ASC')->get_where('auth',array('estado' => 1));    
+            $consulta = $this->db->order_by('nombre','ASC')->get_where('auth',array('usuario !=' => "IEMO", 'estado' => 1));    
             return $consulta->result();
+        }
+        
+        public function Users_Select_row(){
+            $consulta = $this->db->order_by('nombre','ASC')->get_where('auth',array('usuario !=' => "IEMO", 'estado' => 1));    
+            return $consulta->num_rows();
         }
 
         public function User_Delete($codigo_usuario){
@@ -380,6 +454,11 @@
                 echo "Error al actualizar la contraseña";
                 exit;
             }
+        }
+
+        public function Funciones(){
+            $consulta = $this->db->order_by('orden','ASC')->get_where('funciones',array('estado' => 1));    
+            return $consulta->result();
         }
 
         /* PROVEEDORES */
@@ -450,7 +529,7 @@
 
         /* COMPRAS */
 
-        public function Sales_Insert($producto, $proveedor = null, $compras = null, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
+        public function Sales_Insert($producto, $proveedor, $compras, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
             if (empty($producto) && empty($proveedor) && empty($compra) && empty($venta) && empty($stock) && empty($utilidad)) {
                 echo "Error, no vienen datos";
                 exit;
@@ -467,6 +546,7 @@
                 'codigo_compra' => md5($sales),
                 'codigo_proveedor' => $proveedor,
                 'codigo_categoria' => $categoria,
+                'codigo_producto' => $producto,
                 'codigo_presentacion' => $presentacion,
                 'stock' => $stock,
                 'precio_compra' => $compras,
@@ -491,11 +571,22 @@
                 
                 if ($this->db->affected_rows()) {
                     header('location:'.base_url('index.php/Store'));
+                    exit;
                 }
             }else {
                 echo "Error, no se guardaron los datos de compra";
                 exit;
             }
+        }
+
+        public function Sale_Select(){
+            $consulta = $this->db->order_by('f_registro','desc')->get_where('compras',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function Sale_Select_row(){
+            $consulta = $this->db->order_by('f_registro','desc')->get_where('compras',array('estado' => 1));    
+            return $consulta->num_rows();
         }
 
         public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio){
@@ -618,15 +709,16 @@
 
             $consulta = $this->db->insert('factura', $data);
             if ($consulta) {
+                $codigo_factura = md5($factura);
                 $datas = array(
-                    'codigo_factura' => md5($factura),
+                    'codigo_factura' => $codigo_factura,
                     'estado' => 1
                 );
                 $this->db->where('codigo_usuario', $codigo_usuario);
                 $this->db->where('estado', 2);
                 $this->db->update('detalle_factura', $datas);
                 if ($this->db->affected_rows()) {
-                    header('location:'.base_url('index.php/Dashboard'));
+                    header('location:'.base_url('index.php/Sales/Update/'.$codigo_factura));
                     exit;
                 }else {
                     echo "Error al generar el detalle";
@@ -642,10 +734,83 @@
             $consulta = $this->db->order_by('fecha','desc')->get_where('factura',array('estado' => 1));    
             return $consulta->result();
         }
+        
+        public function Sales_Select_v(){
+            $consulta = $this->db->limit(10)->order_by('fecha','desc')->get_where('factura',array('estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function Sales_Select_row(){
+            $consulta = $this->db->order_by('fecha','desc')->get_where('factura',array('estado' => 1));    
+            return $consulta->num_rows();
+        }
 
         public function Sales_Select_W($where){
             $consulta = $this->db->order_by('fecha','desc')->get_where('factura', $where);    
             return $consulta->result();
+        }
+
+        public function Update_Stock($codigo_factura){
+            $this->db->select('*');
+            $this->db->from('detalle_factura');
+            $this->db->where('codigo_factura', $codigo_factura);
+            $this->db->where('estado', 1);
+            $consulta = $this->db->get();
+            $row = $consulta->row();
+            foreach($consulta->result() as $item) {
+                $codigo_producto = $item->codigo_producto;
+                $cantidad = $item->cantidad;
+
+                $this->db->select('*');
+                $this->db->from('inventario');
+                $this->db->where('codigo_producto', $codigo_producto);
+                $this->db->where('estado', 1);
+                $invetario = $this->db->get();
+                foreach($invetario->result() as $inve){
+                    $stock = $inve->stock;
+                    $libras = $inve->libras;
+                }
+
+                $this->db->select('*');
+                $this->db->from('producto');
+                $this->db->where('codigo_producto', $codigo_producto);
+                $this->db->where('estado', 1);
+                $producto = $this->db->get();
+                foreach($producto->result() as $produ):
+                    $codigo_categoria = $produ->codigo_categoria;
+                endforeach;
+
+                if ($codigo_categoria === "1be3842ece0b6fbab575bc32ea7737f5" || $codigo_categoria === "baa661154ee9582abf982570b201298e") {
+                    if ($cantidad > $libras) {
+                        $new_libra = $cantidad - $libras;
+                        $new_libras = 100 - $new_libra;
+                        $new_stock = $stock - 1;
+                    }else {
+                        $new_libras = $libras - $cantidad;
+                        $new_stock = $stock;
+                    }
+                }else {
+                    $new_stock = $stock - $cantidad;
+                    $new_libras = 0;
+                }
+
+                $data = array(
+                    'stock' => $new_stock,
+                    'libras' => $new_libras,
+                );
+                $this->db->trans_start();
+                $this->db->where('codigo_producto', $codigo_producto);
+                $this->db->update('inventario', $data);
+                $this->db->trans_complete();
+                if ($this->db->affected_rows()) {
+                    header('location:'.base_url('index.php/Sales/Printer/'.$codigo_factura));
+                    exit;
+                }else {
+                    echo "Error, no se puedo actualizar el stock";
+                    exit;
+                }
+                
+            }
         }
 
     }

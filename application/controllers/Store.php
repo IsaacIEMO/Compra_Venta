@@ -11,10 +11,11 @@
         }
         
         public function index(){
-            $productos = $this->Querys->Products_Select();
-            $proveedores = $this->Querys->Supplier_Select();
-            $data = array('productos' => $productos, 'proveedores' => $proveedores);
             if($this->session->userdata('is_logged')){
+                $productos = $this->Querys->Products_Select();
+                $proveedores = $this->Querys->Supplier_Select();
+                $compras = $this->Querys->Sale_Select();
+                $data = array('productos' => $productos, 'proveedores' => $proveedores, 'compras' => $compras);
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
                 $this->load->view('admin/store', $data);
@@ -31,7 +32,7 @@
 
         public function Insert_Store(){
             $producto = $this->input->post('producto');
-            $proveedor = $this->input->post('proveedor');
+            $proveedor = $this->input->post('proveedord');
             $compra = $this->input->post('compra');
             $venta = $this->input->post('venta');
             $stock = $this->input->post('stock');
