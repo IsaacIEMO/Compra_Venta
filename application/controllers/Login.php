@@ -47,6 +47,10 @@
                 
                 $this->session->set_userdata($data);
                 $this->session->set_flashdata('msg', 'Bienvenido al sistema'. $data['usuario']);
+                if ($res->rol === "c81e728d9d4c2f636f067f89cc14862c") {
+                    echo json_encode(array('url' => base_url('index.php/Sales/Sales')));
+                    exit;
+                }
                 echo json_encode(array('url' => base_url('index.php/Dashboard')));
             }
         }

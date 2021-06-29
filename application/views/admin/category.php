@@ -80,11 +80,10 @@
   								<td class="text_v"> </td>
   								<td class="text_v">
   									<a href="<?= base_url('index.php/Products/Delete_Category')?>/<?= $item->codigo_categoria;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
-  									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CA<?= $item->codigo_categoria; ?>" title="Actualizar categoria"><i class="fas fa-sync"></i></button>
-  									<a href="" class="btn btn-success" title="Ventas de categoria"><i class="far fa-list-alt"></i></a>
+  									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ca<?= $item->codigo_categoria; ?>" title="Actualizar categoria"><i class="fas fa-sync"></i></button>
   								</td>
   							</tr>
-  							<div class="modal fade" id="CA<?= $item->codigo_categoria; ?>">
+  							<div class="modal fade" id="ca<?= $item->codigo_categoria; ?>">
   								<div class="modal-dialog modal-lg">
   									<div class="modal-content">
   										<div class="modal-header">
@@ -93,29 +92,32 @@
   												<span aria-hidden="true">&times;</span>
   											</button>
   										</div>
-  										<div class="modal-body">
-  											<div class="row">
-  												<div class="form-group col-12">
-  													<label for="categoria">Nombre de la categotria</label>
-  													<input type="text" name="categoria" id="categoria" class="form-control"
-  														placeholder="<?= $item->categoria; ?>">
-  												</div>
-  											</div>
-  											<div class="row">
-  												<div class="form-group col-12">
-  													<label for="description">Descripcion</label>
-  													<textarea name="description" id="description" cols="30" rows="3" class="form-control"
-  														placeholder="<?= $item->descripcion; ?>"></textarea>
-  												</div>
-  											</div>
-  										</div>
-  										<div class="modal-footer justify-content-between">
-  											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-  											<button type="button" class="btn btn-primary">Save changes</button>
-  										</div>
+  										<form action="<?= base_url('index.php/Products/Update_categoria');?>" method="POST">
+											  <div class="modal-body">
+												  <div class="row">
+													  <div class="form-group col-12">
+														  <label for="categoria">Nombre de la categotria</label>
+														  <input type="text" name="categoria" id="categoria" class="form-control" placeholder="<?= $item->categoria; ?>">
+															<input type="hidden" name="codigo_categoria" value="<?= $item->codigo_categoria;?>">
+													  </div>
+												  </div>
+												  <div class="row">
+													  <div class="form-group col-12">
+														  <label for="description">Descripcion</label>
+														  <textarea name="description" id="description" cols="30" rows="3" class="form-control" placeholder="<?= $item->descripcion; ?>"></textarea>
+													  </div>
+												  </div>
+											  </div>
+											  <div class="modal-footer justify-content-between">
+												  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												  <input type="submit" value="Guardar" class="btn btn-primary">
+											  </div>
+										  </form>
   									</div>
   								</div>
   							</div>
+
+							  
   							<?php endforeach; ?>
   						</tbody>
   						<tfoot>

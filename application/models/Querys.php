@@ -461,6 +461,34 @@
             return $consulta->result();
         }
 
+        public function Update_categorias($codigo_categoria, $categoria, $description){
+            if (empty($codigo_categoria) && empty($categoria) && empty($descripcion)) {
+                echo "No vienen datos";
+                exit;
+            }
+
+            $date = date('Y-m-d H:i:s A');
+            $codigo_usuarios = $this->session->userdata('codigo_usuario');
+
+            $data = array(
+                'categoria' => $categoria,
+                'descripcion' => $description,
+                'u_actualizacion' => $codigo_usuarios,
+                'f_actializacion' => $date
+            );
+
+            $this->db->where('codigo_categoria', $codigo_categoria);
+            $this->db->update('categoria', $data);
+            
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/category'));
+                exit;
+            }else {
+                echo "Error al actualizar la contraseña";
+                exit;
+            }
+        }
+
         /* PROVEEDORES */
 
         public function Supplier_Insert($nombre, $telefono = null){
@@ -556,10 +584,17 @@
                 'u_registro' => $codigo_usuario
             );
 
+            $this->db->select('stock');
+            $this->db->from('inventario');
+            $this->db->where('codigo_producto', $producto);
+            $cons = $this->db->get();
+            foreach($cons->result() as $inve);
+            $new_stock = $inve->stock;
+
             $consulta = $this->db->insert('compras', $data);
             if ($consulta) {
                 $datas = array(
-                    'stock' => $stock,
+                    'stock' => ($stock+$new_stock),
                     'precio_compra' => $compras,
                     'precio_venta' => $venta,
                     'utilidad' => ($venta - $compras),
@@ -794,21 +829,23 @@
                     $new_libras = 0;
                 }
 
-                $data = array(
-                    'stock' => $new_stock,
-                    'libras' => $new_libras,
-                );
-                $this->db->trans_start();
-                $this->db->where('codigo_producto', $codigo_producto);
-                $this->db->update('inventario', $data);
-                $this->db->trans_complete();
-                if ($this->db->affected_rows()) {
-                    header('location:'.base_url('index.php/Sales/Printer/'.$codigo_factura));
-                    exit;
-                }else {
-                    echo "Error, no se puedo actualizar el stock";
-                    exit;
-                }
+                
+
+                // $data = array(
+                //     'stock' => $new_stock,
+                //     'libras' => $new_libras,
+                // );
+                // $this->db->trans_start();
+                // $this->db->where('codigo_producto', $codigo_producto);
+                // $this->db->update('inventario', $data);
+                // $this->db->trans_complete();
+                // if ($this->db->affected_rows()) {
+                //     header('location:'.base_url('index.php/Sales/Printer/'.$codigo_factura));
+                //     exit;
+                // }else {
+                //     echo "Error, no se puedo actualizar el stock";
+                //     exit;
+                // }
                 
             }
         }

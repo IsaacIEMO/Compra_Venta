@@ -107,6 +107,13 @@
             $this->Querys->Products_Update_Stock($codigo_producto, $old, $new, $utilidad);
         }
 
+        public function Update_categoria(){
+            $codigo_categoria = $this->input->post('codigo_categoria');
+            $categoria = $this->input->post('categoria');
+            $description = $this->input->post('description');
+            $this->Querys->Update_categorias($codigo_categoria, $categoria, $description);
+        }
+
         public function Update_Cash(){
             $old_c = $this->input->post('old_c');
             $codigo_producto = $this->input->post('codigo_producto');

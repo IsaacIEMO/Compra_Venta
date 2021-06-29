@@ -13,6 +13,7 @@
   <script src="<?= base_url('assets/');?>dist/js/92273c49b9.js"></script>
   <script src="<?= base_url('assets/');?>dist/js/jquery.min.js"></script>
   <script src="<?= base_url('assets/');?>dist/js/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/fontawesome-free/css/all.min.css">
 
   <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="<?= base_url('assets/');?>dist/css/adminlte.min.css">

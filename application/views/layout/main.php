@@ -134,7 +134,7 @@
 
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
+						<?php if($this->session->userdata('rol') === "c4ca4238a0b923820dcc509a6f75849b" || $this->session->userdata('rol') === "0b28a5799a32c687dad2c5183718ceac"): ?>
 						<li class="nav-item">
 							<a href="<?= base_url('index.php/Dashboard');?>"
 								class="nav-link <?= $urls === 'Dashboard' ? 'active' : '' ;?>">
@@ -144,8 +144,6 @@
 								</p>
 							</a>
 						</li>
-						<?php //foreach():?>
-						<?php //endforeach; ?>
 						<li class="nav-item">
 							<a href="<?= base_url('index.php/Store');?>"
 								class="nav-link <?= $urls === 'Store' ? 'active' : '' ;?>">
@@ -267,15 +265,48 @@
 										<p>Presentacion</p>
 									</a>
 								</li>
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Roles');?>"
 										class="nav-link <?= $url === 'Roles' ? 'active' : '' ;?>">
 										<i class="fas fa-briefcase nav-icon"></i>
 										<p>Roles</p>
 									</a>
-								</li>
+								</li> -->
 							</ul>
 						</li>
+
+						<?php elseif($this->session->userdata('rol') === "c81e728d9d4c2f636f067f89cc14862c" ): ?>
+							<li class="nav-item <?= $urls === 'Sales' ? 'menu-open' : '' ;?>">
+							<a href="#" class="nav-link <?= $urls === 'Sales' ? 'active' : '' ;?>">
+								<i class="nav-icon fas fa-store"></i>
+								<p>
+									Ventas
+									<i class="fas fa-angle-left right"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Sales/Sales');?>"
+										class="nav-link <?= $url === 'Sales' ? 'active' : '' ;?>">
+										<i class="far fa-edit nav-icon"></i>
+										<p>Nueva venta</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Sales/Sales_L');?>"
+										class="nav-link <?= $url === 'Sales_L' ? 'active' : '' ;?>">
+										<i class="far fa-edit nav-icon"></i>
+										<p>Listado de ventas</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						<?php else: ?>
+							Error
+						<?php endif;?>
 
 					</ul>
 				</nav>
