@@ -20,23 +20,6 @@
 
 		var total = document.getElementById("utilidad").value = separator(total);
 	}
-	
-	function calcular() {
-		var existencia = parseFloat(document.getElementById("stock").value);
-		var precio_compra = parseFloat(document.getElementById("compra").value);
-		var precio_venta = parseFloat(document.getElementById("venta").value);
-		var sub_total = precio_venta - precio_compra;
-		var conDecimal = sub_total.toFixed(2);
-		var total = existencia * conDecimal;
-
-		function separator(total) {
-			var str = total.toString().split(".");
-			str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			return str.join(".");
-		}
-
-		var total = document.getElementById("utilidad").value = separator(total);
-	}
 
 	function calcula() {
 		var precio = parseFloat(document.getElementById("precio").value);
@@ -53,29 +36,9 @@
 		var total = document.getElementById("subtotal").value = (total);
 	}
 
-	function calc() {
-		var existencia = parseFloat(document.getElementById("stock").value);
-		var precio_compra = parseFloat(document.getElementById("compra").value);
-		var precio_venta = parseFloat(document.getElementById("libra").value);
-		var kin = existencia * 100;
-		var sub_total1 = precio_venta * kin;
-		var sub_total2 = precio_compra * existencia;
-		var sub_total = sub_total1 - sub_total2;
-		var conDecimal = sub_total.toFixed(0);
-		var total = conDecimal;
-
-		function separator(total) {
-			var str = total.toString().split(".");
-			str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			return str.join(".");
-		}
-
-		var total = document.getElementById("utilidad").value = separator(total);
-	}
-
 </script>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-collapse" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calc();"' : 'onload="calcula();"'?>>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-collapse" <?= $url === 'new_products' || $urls === "Store" ? 'onload="calcular();"' : 'onload="calcula();"'?>>
 	<div class="wrapper">
 
 		<div class="preloader flex-column justify-content-center align-items-center">

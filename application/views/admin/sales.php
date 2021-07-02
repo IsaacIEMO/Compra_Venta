@@ -26,28 +26,25 @@
 					<div class="card-body">
                          
                               <div class="row">
-                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                   <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                              <label for="nombre">Cliente</label>
                                              <input type="text" name="nombre" id="nombre" class="form-control" autofocus required>
                                         </div>
                                    </div>
-                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                   <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                              <label for="direccion">Direccion</label>
                                              <input type="text" name="direccion" id="direccion" class="form-control">
                                         </div>
                                    </div>
-                                   <div class="col-lg-4 col-md-4 col-sm-12">
+                                   <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                              <label for="telefono">Telefono</label>
                                              <input type="text" name="telefono" id="telefono" class="form-control">
                                         </div>
                                    </div>
-                              </div>
-
-                              <div class="row">
-                                   <div class="col-lg-6 col-md-6 col-sm-12" >
+                                   <div class="col-lg-3 col-md-6 col-sm-12" >
                                         <div class="form-group">
                                              <label for="producto">Listado de productos</label>
                                              <select name="producto" id="producto" class="form-control select2" style="width: 100%;">
@@ -70,6 +67,9 @@
                                              </select>
                                         </div>
                                    </div>
+                              </div>
+
+                              <div class="row">
                                    <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="stock_actual">
                                              <label for="old">Existencia</label>

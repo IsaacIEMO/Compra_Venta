@@ -56,69 +56,7 @@
   								</div>
   							</div>
 
-  							<div class="col-lg-2 col-md-2 col-sm-10">
-  								<div class="form-group">
-  									<label for="stock">Exitencia</label>
-  									<input type="number" name="stock" id="stock" class="form-control text_v" required>
-  								</div>
-  							</div>
-							  <style>
-							input[type=checkbox]{
-								/* Double-sized Checkboxes */
-								-ms-transform: scale(0.6); /* IE */
-								-moz-transform: scale(0.6); /* FF */
-								-webkit-transform: scale(0.6); /* Safari and Chrome */
-								-o-transform: scale(0.6); /* Opera */
-								transform: scale(0.6);
-							}
-						</style>
-							<div class="col-lg-1 col-md-1 col-sm-2">
-								<div class="form-group">
-									<label for="check">En libras</label>
-									<input type="checkbox" name="librass" id="librass" class="form-control" checked value="1">
-								</div>
-							</div>
-  						</div>
-						<script type="text/javascript">
-							$(document).ready(function(){
-								$('#librass').on('change',function(){
-									if (this.checked) {
-										document.getElementById('ventas').style.display = 'none';
-										document.getElementById('venta').style.display = 'none';
-										$("#libras").show();
-										$("#libra").show();
-									} else {
-										document.getElementById('venta').style.display = 'block';
-										document.getElementById('ventas').style.display = 'block';
-										$("#libras").hide();
-										$("#libra").hide();
-									}  
-								})
-							});
-						</script>
-						
-  						<div class="row">
-  							<div class="col-lg-3 col-md-3 col-sm-12">
-  								<div class="form-group">
-  									<label for="compra">Precio Compra</label>
-  									<input type="number" name="compra" id="compra" class="form-control text_v" step="any" required>
-  								</div>
-  							</div>
-  							<div class="col-lg-3 col-md-3 col-sm-12">
-  								<div class="form-group">
-  									<label id="ventas" for="ventas" style="display: none;">Precio Venta</label>
-  									<label id="libras" for="libras">Precio en Libras</label>
-  									<input type="number" name="venta" id="venta" class="form-control text_v" step="any" onkeyup="calcular();" style="display: none;">
-  									<input type="number" name="libra" id="libra" class="form-control text_v" step="any" onkeyup="calc();">
-  								</div>
-  							</div>
-  							<div class="col-lg-3 col-md-3 col-sm-12">
-  								<div class="form-group">
-  									<label for="utilidad">Utilidad por lote</label>
-  									<input type="number" name="utilidad" id="utilidad" class="form-control text_v" readonly value="0">
-  								</div>
-  							</div>
-  							<div class="col-lg-3 col-md-3 col-sm-12">
+							<div class="col-lg-3 col-md-3 col-sm-12">
   								<div class="form-group">
   									<label>Fecha de vencimiento:</label>
   									<div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -129,11 +67,55 @@
   									</div>
   								</div>
   							</div>
+
+  							
   						</div>
   						<div class="row">
-  							<div class="col-lg-12 col-md-12 col-sm-12 form-group">
+							<div class="col-lg-3 col-md-3 col-sm-12">
+  								<div class="form-group">
+  									<label for="stock">Exitencia en quintales</label>
+  									<input type="number" name="stock" id="stock" class="form-control text_v" required>
+  								</div>
+  							</div>
+  							<div class="col-lg-3 col-md-3 col-sm-12">
+  								<div class="form-group">
+  									<label for="compra">Precio Compra</label>
+  									<input type="number" name="compra" id="compra" class="form-control text_v" step="any" required>
+  								</div>
+  							</div>
+  							<div class="col-lg-3 col-md-3 col-sm-12">
+  								<div class="form-group">
+  									<label id="ventas" for="ventas">Precio Venta Quintal</label>
+  									<input type="number" name="venta" id="venta" class="form-control text_v" step="any" onkeyup="calcular();" required>
+  								</div>
+  							</div>
+  							<div class="col-lg-3 col-md-3 col-sm-12">
+  								<div class="form-group">
+  									<label for="utilidad">Utilidad por lote</label>
+  									<input type="number" name="utilidad" id="utilidad" class="form-control text_v" readonly value="0" step="any">
+  								</div>
+  							</div>
+
+  							
+  						</div>
+  						<div class="row">
+						  	<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="row">
+									<div class="col-12">
+										<label for="stock_libra">Existencia en libras</label>
+										<input type="number" name="stock_libra" id="stock_libra" class="form-control" step="any">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<label for="precio_libra">Precio de libra</label>
+										<input type="number" name="precio_libra" id="precio_libra" class="form-control" step="any">
+									</div>
+								</div>
+							</div>
+  							<div class="col-lg-6 col-md-6 col-sm-12 form-group">
   								<label for="descripcion">Descripcion</label>
-  								<textarea name="descripcion" id="descriocion" cols="30" rows="2" class="form-control"></textarea>
+  								<textarea name="descripcion" id="descriocion" cols="30" rows="3" class="form-control"></textarea>
   							</div>
   						</div>
 

@@ -24,8 +24,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
-    <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/daterangepicker/daterangepicker.css">

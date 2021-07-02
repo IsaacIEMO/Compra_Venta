@@ -3,12 +3,12 @@
   		<div class="container-fluid">
   			<div class="row mb-2">
   				<div class="col-sm-6">
-  					<h1 class="m-0">Inventario</h1>
+  					<h1 class="m-0">Inventario General</h1>
   				</div>
   				<div class="col-sm-6">
   					<ol class="breadcrumb float-sm-right">
   						<li class="breadcrumb-item"><a href="<?= base_url('index.php/Dashboard');?>">Inicio</a></li>
-  						<li class="breadcrumb-item active">Inventario</li>
+  						<li class="breadcrumb-item active">Inventario General</li>
   					</ol>
   				</div>
   			</div>
@@ -19,7 +19,7 @@
   		<div class="container-fluid">
   			<div class="card card-primary card-outline">
   				<div class="card-header">
-  					<h3 class="card-title">Inventario</h3>
+  					<h3 class="card-title">Inventario General</h3>
   				</div>
   				<div class="card-body">
   					<table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
@@ -58,7 +58,8 @@
 									$query = $this->db->get();
 									foreach($query->result() as $inve);
 									$stock = $inve->stock;
-									$libras = $inve->libras;
+									$stock_libras = $inve->stock_libras;
+									$precio_libras = $inve->precio_libras;
 									$codigo_presentacion = $inve->codigo_presentacion;
 									$compra = $inve->precio_compra;
 									$venta = $inve->precio_venta;
@@ -75,14 +76,14 @@
 								?>
 
   								<td class="text_v"><?= $presentacion; ?></td>
-  								<td class="text_v"><?= $stock; ?> <?= $libras > 0 ? " -- ".number_format($libras, -2, '.', ',').' lbs' : ''?></td>
+  								<td class="text_v"><?= $stock; ?> <?= $stock >= 2 ? 'quintales' : 'quintal'; ?> <?= $stock_libras > 0 ? " -- ".number_format($stock_libras, -2, '.', ',').' lbs' : ''?></td>
   								<td class="text_v">Q <?= number_format($ganancia, 2, '.', ','); ?></td>
   								<td class="text_v">
+								  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#up<?= $item->codigo_producto; ?>" title="Actualizar Existencia"><i class="fas fa-sync-alt"></i></button>
+  									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cash<?= $item->codigo_producto; ?>" title="Actualizar Precios"><i class="fas fa-money-bill-wave"></i></button>
   									<a href="<?= base_url('index.php/Products/Delete_Product')?>/<?= $item->codigo_producto;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
   									<a href="" class="btn btn-success" title="Ventas de categoria"><i class="far fa-list-alt"></i></a>
   									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs<?= $item->codigo_producto; ?>" title="Infomacion General"><i class="fas fa-info-circle"></i></button>
-  									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#up<?= $item->codigo_producto; ?>" title="Actualizar Existencia"><i class="fas fa-sync-alt"></i></button>
-  									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cash<?= $item->codigo_producto; ?>" title="Actualizar Precios"><i class="fas fa-money-bill-wave"></i></button>
   								</td>
   							</tr>
 
@@ -91,7 +92,7 @@
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title"><?= $item->producto; ?></h4>
+												<h4 class="modal-title"><?= $item->producto; ?> <?= $presentacion; ?></h4>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -177,7 +178,7 @@
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title"><?= $item->producto; ?></h4>
+												<h4 class="modal-title"><?= $item->producto; ?>  <?= $presentacion; ?></h4>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -223,7 +224,7 @@
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title"><?= $item->producto; ?></h4>
+												<h4 class="modal-title"><?= $item->producto; ?> <?= $presentacion; ?></h4>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>

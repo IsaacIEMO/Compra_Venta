@@ -86,9 +86,10 @@
             $compra = $this->input->post('compra');
             $venta = $this->input->post('venta');
             $utilidad = $this->input->post('utilidad');
+            $stock_libra = $this->input->post('stock_libra');
+            $precio_libra = $this->input->post('precio_libra');
             $descripcion = $this->input->post('descripcion');
-            $libras = $this->input->post('libra');
-            $this->Querys->Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $libras, $descripcion);
+            $this->Querys->Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $stock_libra, $precio_libra, $descripcion);
         }
 
         public function Delete_Product($codigo_producto){

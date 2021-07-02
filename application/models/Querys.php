@@ -153,7 +153,7 @@
 
         /* PRODUCTS */
 
-        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $libras, $descripcion = null){
+        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento = null, $stock_libra, $precio_libra, $descripcion = null){
             if (empty($producto) && empty($categoria) && empty($presentacion)) {
                 echo "Error, no viene datos dentro de los paramentros";
                 exit;
@@ -180,44 +180,29 @@
 
             $consulta = $this->db->insert('producto', $data);
 
-            $fechaBD = date("Y-m-d", strtotime($vencimiento));
+            if ($vencimiento != null) {
+                $fechaBD = date("Y-m-d", strtotime($vencimiento));
+            }
 
-            //$utilidad = (($stock*$venta)-($stock*$compra));
             $utilidades = ($venta-$compra);
 
             if ($consulta) {
 
-                if ($libras > 0) {
-                    $datos = array(
-                        'codigo_inventario' => md5('IN-'.$code),
-                        'codigo_categoria' => $categoria,
-                        'codigo_producto' => $codigo_producto,
-                        'codigo_presentacion' => $presentacion,
-                        'stock' => $stock,
-                        'precio_compra' => $compra,
-                        'precio_venta' => $libras,
-                        'libras' => 100,
-                        'utilidad' => (-1 * $utilidades),
-                        'u_lote' => $utilidad,
-                        'vencimiento' => $fechaBD,
-                        'u_registro' => $codigo_usuario
-                    );
-                
-                }else {
-                    $datos = array(
-                        'codigo_inventario' => md5('IN-'.$code),
-                        'codigo_categoria' => $categoria,
-                        'codigo_producto' => $codigo_producto,
-                        'codigo_presentacion' => $presentacion,
-                        'stock' => $stock,
-                        'precio_compra' => $compra,
-                        'precio_venta' => $venta,
-                        'utilidad' => $utilidades,
-                        'u_lote' => $utilidad,
-                        'vencimiento' => $fechaBD,
-                        'u_registro' => $codigo_usuario
-                    );
-                }
+                $datos = array(
+                    'codigo_inventario' => md5('IN-'.$code),
+                    'codigo_categoria' => $categoria,
+                    'codigo_producto' => $codigo_producto,
+                    'codigo_presentacion' => $presentacion,
+                    'stock' => $stock,
+                    'precio_compra' => $compra,
+                    'precio_venta' => $venta,
+                    'u_lote' => $utilidad,
+                    'utilidad' => $utilidades,
+                    'stock_libras' => $stock_libra,
+                    'precio_libras' => $precio_libra,
+                    'vencimiento' => $fechaBD,
+                    'u_registro' => $codigo_usuario
+                );
 
                 $query = $this->db->insert('inventario', $datos);
                 if ($query) {
