@@ -153,7 +153,7 @@
 
         /* PRODUCTS */
 
-        public function Products_Insert($producto,$categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento = null, $stock_libra, $precio_libra, $descripcion = null){
+        public function Products_Insert($producto, $categoria, $presentacion, $stock, $compra, $venta, $utilidad, $vencimiento, $stock_libra, $precio_libra, $descripcion = null){
             if (empty($producto) && empty($categoria) && empty($presentacion)) {
                 echo "Error, no viene datos dentro de los paramentros";
                 exit;
@@ -180,7 +180,7 @@
 
             $consulta = $this->db->insert('producto', $data);
 
-            if ($vencimiento != null) {
+            if ($vencimiento != "") {
                 $fechaBD = date("Y-m-d", strtotime($vencimiento));
             }
 
@@ -542,7 +542,7 @@
 
         /* COMPRAS */
 
-        public function Sales_Insert($producto, $proveedor, $compras, $venta, $stock, $utilidad, $descripcion = null, $presentacion, $categoria){
+        public function Sales_Insert($producto, $proveedor, $compras, $venta, $stock, $utilidad, $descripcion, $presentacion, $categoria){
             if (empty($producto) && empty($proveedor) && empty($compra) && empty($venta) && empty($stock) && empty($utilidad)) {
                 echo "Error, no vienen datos";
                 exit;
@@ -609,13 +609,12 @@
             return $consulta->num_rows();
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
                     exit;
                 }
-
 
                 $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                 $code = "";
@@ -623,12 +622,22 @@
                 for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
                 $detalle = "DTL-".$code;
                 $codigo_usuario = $this->session->userdata('codigo_usuario');
-                
+
+                $this->db->select('*');
+                $this->db->from('inventario');
+                $this->db->where('codigo_producto', $producto);
+                $consultas = $this->db->get();
+                foreach($consultas->result() as $item);
+
+                if ($venta == 1) {
+                    $precio = $item->precio_libras;
+                }
 
                 $data = array(
                     'codigo_detalle' => md5($detalle),
                     'codigo_usuario' => $codigo_usuario,
                     'codigo_producto' => $producto,
+                    'tipo' => $venta,
                     'cantidad' => $stock,
                     'precio' => $precio,
                     'subtotal' => ($stock*$precio),
@@ -771,67 +780,8 @@
         }
 
         public function Update_Stock($codigo_factura){
-            $this->db->select('*');
-            $this->db->from('detalle_factura');
-            $this->db->where('codigo_factura', $codigo_factura);
-            $this->db->where('estado', 1);
-            $consulta = $this->db->get();
-            $row = $consulta->row();
-            foreach($consulta->result() as $item) {
-                $codigo_producto = $item->codigo_producto;
-                $cantidad = $item->cantidad;
-
-                $this->db->select('*');
-                $this->db->from('inventario');
-                $this->db->where('codigo_producto', $codigo_producto);
-                $this->db->where('estado', 1);
-                $invetario = $this->db->get();
-                foreach($invetario->result() as $inve){
-                    $stock = $inve->stock;
-                    $libras = $inve->libras;
-                }
-
-                $this->db->select('*');
-                $this->db->from('producto');
-                $this->db->where('codigo_producto', $codigo_producto);
-                $this->db->where('estado', 1);
-                $producto = $this->db->get();
-                foreach($producto->result() as $produ):
-                    $codigo_categoria = $produ->codigo_categoria;
-                endforeach;
-
-                if ($codigo_categoria === "1be3842ece0b6fbab575bc32ea7737f5" || $codigo_categoria === "baa661154ee9582abf982570b201298e") {
-                    if ($cantidad > $libras) {
-                        $new_libra = $cantidad - $libras;
-                        $new_libras = 100 - $new_libra;
-                        $new_stock = $stock - 1;
-                    }else {
-                        $new_libras = $libras - $cantidad;
-                        $new_stock = $stock;
-                    }
-                }else {
-                    $new_stock = $stock - $cantidad;
-                    $new_libras = 0;
-                }
-
-                
-
-                // $data = array(
-                //     'stock' => $new_stock,
-                //     'libras' => $new_libras,
-                // );
-                // $this->db->trans_start();
-                // $this->db->where('codigo_producto', $codigo_producto);
-                // $this->db->update('inventario', $data);
-                // $this->db->trans_complete();
-                // if ($this->db->affected_rows()) {
-                //     header('location:'.base_url('index.php/Sales/Printer/'.$codigo_factura));
-                //     exit;
-                // }else {
-                //     echo "Error, no se puedo actualizar el stock";
-                //     exit;
-                // }
-                
+            if (isset($codigo_factura)) {
+                echo "Error, no "
             }
         }
 

@@ -46,7 +46,8 @@
             $old = $this->input->post('old');
             $stock = $this->input->post('stock');
             $precio = $this->input->post('precio');
-            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio);
+            $venta = $this->input->post('venta');
+            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta);
         }
 
         public function Delete_Product_Detalle($codigo_detalle){

@@ -3,6 +3,7 @@ function detalles() {
 	var stock = $("#stock").val();
 	var subtotal = $("#subtotal").val();
 	var precio = $("#precio").val();
+	var venta = $("#venta").val();
 	var ok = true;
 	var msg = "\n";
 
@@ -25,6 +26,11 @@ function detalles() {
 		ok = false;
 		msg += " - Precio";
 	}
+	
+	if (venta == "") {
+		ok = false;
+		msg += " - Libra / Quintal";
+	}
 
 	if (ok == false) {
 		Swal.fire({
@@ -37,7 +43,7 @@ function detalles() {
 			confirmButtonText: 'Deseas Continuar?'
 		}).then((result) => {
 			if (result.value) {
-				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio }, function (data) {
+				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta }, function (data) {
 					if (data == 1) {
                         if (result.value) {
                             location.reload();
@@ -53,7 +59,7 @@ function detalles() {
 			}
 		})
 	} else {
-		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio }, function (data) {
+		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta  }, function (data) {
 			if (data == 1) {
 				location.reload();
                 
