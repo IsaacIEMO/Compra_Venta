@@ -780,8 +780,52 @@
         }
 
         public function Update_Stock($codigo_factura){
-            if (isset($codigo_factura)) {
-                echo "Error, no "
+            if (empty($codigo_factura)) {
+                echo "Error, no vienen datos";
+            }
+
+            $this->db->select('*');
+            $this->db->from('detalle_factura');
+            $this->db->where('codigo_factura', $codigo_factura);
+            $consulta = $this->db->get();
+            foreach($consulta->result() as $item){
+                $codigo_detalle = $item->codigo_detalle;
+                $tipo = $item->tipo;
+                $codigo_productos = $item->codigo_producto;
+                $precio = $item->precio;
+                $stock = $item->cantidad;
+
+                $this->db->select('*');
+                $this->db->from('inventario');
+                $this->db->where('codigo_producto', $codigo_productos);
+                $inventario = $this->db->get();
+                foreach($inventario->result() as $inve);
+                $stock_qq = $inve->stock;
+                $stock_l = $inve->stock_libras;
+                $codigo_inventario = $inve->codigo_inventario;
+
+                if ($tipo == 1) {
+                    $new_stock_l = $stock_l - $stock; 
+                }
+                
+                $new_stock_qq = ($stock_qq - $stock);
+
+                if ($new_stock_l == $stock_l) {
+                    $new_stock_l = $stock_l;
+                }
+
+                $data = array(
+                    'stock' => $new_stock_qq,
+                    'stock_libras' => $new_stock_l
+                );
+
+                $this->db->where('codigo_inventario', $codigo_inventario);
+                $this->db->update('inventario', $data);
+                if ($this->db->affected_rows()) {
+                    header('location:'.base_url('index.php/Sales/Printer/'.$codigo_factura));
+                }else {
+                    echo "Error";
+                }
             }
         }
 

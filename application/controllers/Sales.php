@@ -103,6 +103,7 @@
                 $connector = new Escpos\PrintConnectors\WindowsPrintConnector("POS-80C");
     
                 $printer = new Escpos\Printer($connector);
+                
     
                 /* PARTE 1 */
 
@@ -145,7 +146,8 @@
                     else: 
                         $s = "0".$stock; 
                     endif;
-                    $printer->text($s."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    
+                    $printer->text(number_format($s, 0, '.', ',')."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
                     
                 endforeach;
                 $printer->text("\n\n");
@@ -156,9 +158,11 @@
                 /* Cuerpo */
 
                 /* Pie de Pagina */
+                $printer -> feed(2);
                 $printer->text("CAJERO: ".$nombre_usuario."\n");
                 $printer->text("CORRELATIVO: ".$correlativo."\n");
                 $printer->text("FECHA: ".$fecha."\n");
+                $printer -> feed(2);
                 /* Pie de Pagina */
                 $printer -> cut();
                 
@@ -206,7 +210,7 @@
                     else: 
                         $s = "0".$stock; 
                     endif;
-                    $printer->text($s."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    $printer->text(number_format($s, 0, '.', ',')."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
                     
                 endforeach;
                 $printer->text("\n\n");
@@ -217,9 +221,11 @@
                 /* Cuerpo */
 
                 /* Pie de Pagina */
+                $printer -> feed(2);
                 $printer->text("CAJERO: ".$nombre_usuario."\n");
                 $printer->text("CORRELATIVO: ".$correlativo."\n");
                 $printer->text("FECHA: ".$fecha."\n");
+                $printer -> feed(2);
                 /* Pie de Pagina */
                 $printer -> cut();
 

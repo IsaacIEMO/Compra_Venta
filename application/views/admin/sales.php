@@ -65,9 +65,7 @@
                                                                            $categoria = $prod->codigo_categoria;
                                                                            $codigo_presentacion = $prod->codigo_presentacion;
                                                             ?>
-												<option value="<?= $item->codigo_producto; ?>">
-													<?= $item->producto; ?> <?= $prod->categoria; ?>
-													<?= $prod->presentacion; ?></option>
+												<option value="<?= $item->codigo_producto; ?>"> <?= $item->producto; ?> <?= $prod->presentacion; ?></option>
 												<?php endforeach; endforeach; ?>
 											</select>
 										</div>
@@ -178,7 +176,7 @@
 													</td>
 												</tr>
 
-
+                                                            
 												<?php endforeach; ?>
 											</tbody>
 											<tfoot>
@@ -191,6 +189,23 @@
 												</tr>
 											</tfoot>
 										</table>
+                                   <div class="row">
+                                        <div class="col-lg-3 col-md-4 col-sm-12"></div>
+                                        <div class="col-lg-6 col-md-4 col-sm-12">
+                                             <?php
+                                                  $codigo_usuario = $this->session->userdata('codigo_usuario');
+                                        
+                                                  $this->db->select_sum('subtotal', 'total');
+                                                  $this->db->where('codigo_usuario', $codigo_usuario);
+                                                  $this->db->where('estado', 2);
+                                                  $query = $this->db->get('detalle_factura');
+                                                  $resultado = $query->result();
+                                                  $total = $resultado[0]->total;
+                                             ?>
+                                             <b>Total de la factura Q <?= $total > 0 ? $total : '0.00'; ?></b>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-12"></div>
+                                   </div>
 									</div>
 								</div>
 
@@ -202,7 +217,9 @@
 											<a href="<?= base_url('index.php/Sales/Delete_Detalle')?>" class="btn btn-block btn-danger text_v">Cancelar</a>
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-4 col-sm-12"></div>
+									<div class="col-lg-4 col-md-4 col-sm-12">
+                                                                 
+                                             </div>
 									<div class="col-lg-4 col-md-4 col-sm-12">
 										<div class="form-group">
 											<button type="submit" class="btn btn-block btn-success text_v">Comprar</button>
