@@ -238,13 +238,13 @@
 										<p>Presentacion</p>
 									</a>
 								</li>
-								<!-- <li class="nav-item">
-									<a href="<?= base_url('index.php/Settings/Roles');?>"
-										class="nav-link <?= $url === 'Roles' ? 'active' : '' ;?>">
-										<i class="fas fa-briefcase nav-icon"></i>
-										<p>Roles</p>
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Corte');?>"
+										class="nav-link <?= $url === 'Corte' ? 'active' : '' ;?>">
+										<i class="fas fa-cut nav-icon"></i>
+										<p>Corte del dia</p>
 									</a>
-								</li> -->
+								</li>
 							</ul>
 						</li>
 

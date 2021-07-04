@@ -113,7 +113,7 @@
 
   									<?php
                 $stock = $item->stock;
-                $libras = $item->libras;
+                $libras = $item->stock_libras;
                 $codigo_presentacion = $item->codigo_presentacion;
                 $compra = $item->precio_compra;
                 $venta = $item->precio_venta;

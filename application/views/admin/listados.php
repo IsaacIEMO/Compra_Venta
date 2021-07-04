@@ -45,7 +45,7 @@
                                 <input type="hidden" name="codigo_factura<?= $item->codigo_factura; ?>" id="codigo_factura" value="<?= $item->codigo_factura; ?>">
   								<td class="text_v">
   									<a href="<?= base_url('index.php/Sales/Printer/');?><?= $item->codigo_factura; ?>" class="btn btn-secondary" title="Imprimir comprobante"><i class="fas fa-print"></i></a>
-  									<a href="<?= base_url('index.php/Products/Delete_Product')?>/" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
+  									<a href="<?= base_url('index.php/Sales/Delete_Sales')?>/<?= $item->codigo_factura; ?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
   									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs" title="Infomacion General"><i class="fas fa-info-circle"></i></button>
   								</td>
   							</tr>

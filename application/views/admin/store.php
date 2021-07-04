@@ -154,7 +154,7 @@
 									$query = $this->db->get();
 									foreach($query->result() as $inve);
 									$stock = $inve->stock;
-									$libras = $inve->libras;
+									$libras = $inve->stock_libras;
 									$codigo_presentacion = $inve->codigo_presentacion;
 									$compra = $inve->precio_compra;
 									$venta = $inve->precio_venta;

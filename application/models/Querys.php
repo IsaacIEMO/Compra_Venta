@@ -609,7 +609,7 @@
             return $consulta->num_rows();
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento, $nombre, $direccion, $telefono){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
@@ -832,5 +832,61 @@
             }
         }
 
+        public function Sales_Delete($codigo_factura){
+            if (empty($codigo_factura)) {
+                echo "Error, no vienen datos";
+            }
+
+            $this->db->select('*');
+            $this->db->from('detalle_factura');
+            $this->db->where('codigo_factura', $codigo_factura);
+            $consulta = $this->db->get();
+            foreach($consulta->result() as $item){
+                $tipo = $item->tipo;
+                $codigo_productos = $item->codigo_producto;
+                $stock = $item->cantidad;
+
+                $this->db->select('*');
+                $this->db->from('inventario');
+                $this->db->where('codigo_producto', $codigo_productos);
+                $inventario = $this->db->get();
+                foreach($inventario->result() as $inve);
+                $stock_qq = $inve->stock;
+                $stock_l = $inve->stock_libras;
+                $codigo_inventario = $inve->codigo_inventario;
+
+                if ($tipo == 1) {
+                    $new_stock_l = $stock_l + $stock;
+                    $data = array(
+                        'stock_libras' => $new_stock_l
+                    );
+                }else {
+                    $new_stock_qq = $stock_qq + $stock;
+                    $data = array(
+                        'stock' => $new_stock_qq
+                    );
+                }
+
+                $this->db->where('codigo_inventario', $codigo_inventario);
+                $this->db->update('inventario', $data);
+                if ($this->db->affected_rows()) {
+                    $datas = array(
+                        'estado' => 0
+                    );
+                    $this->db->where('codigo_factura', $codigo_factura);
+                    $this->db->update('detalle_factura', $datas);
+                    $this->db->where('codigo_factura', $codigo_factura);
+                    $this->db->update('factura', $datas);
+                    if ($this->db->affected_rows()) {
+                        header('location:'.base_url('index.php/Sales/Sales_L'));
+                    }else {
+                        echo "Error, no se pudo eliminar la factura";
+                        exit;
+                    }
+                }else {
+                    echo "Error";
+                }
+            }
+        }
     }
 ?>

@@ -28,11 +28,13 @@
             }
         }
 
-        public function Roles(){
+        public function Corte(){
             if($this->session->userdata('is_logged')){
+                $dia = $this->Querys->corte_dia();
+                $data = array('dia' => $dia);
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
-                $this->load->view('admin/roles');
+                $this->load->view('admin/roles', $data);
                 $this->load->view('layout/footer');
             }else {
                 show_404();

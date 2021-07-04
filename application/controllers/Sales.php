@@ -270,5 +270,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public function Update($codigo_factura){
             $this->Querys->Update_Stock($codigo_factura);
         }
+
+        public function Delete_Sales($codigo_factura){
+            if (empty($codigo_factura)) {
+                echo "Error, no vienen datos";
+                exit;
+            }
+
+            $this->Querys->Sales_Delete($codigo_factura);
+        }
     }
 ?>
