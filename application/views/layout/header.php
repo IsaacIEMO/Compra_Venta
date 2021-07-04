@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="<?= base_url('assets/');?>dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?= base_url('assets/');?>dist/css/style.css">
 
-  <?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" ||  $url === "Sales_L" || $urls === "Dashboard"): ?>
+  <?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" ||  $url === "Sales_L" || $urls === "Dashboard" || $urls === "Settings"): ?>
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">

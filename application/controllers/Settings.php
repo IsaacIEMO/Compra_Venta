@@ -41,6 +41,22 @@
             }
         }
 
+        public function Ultimo_Corte_S(){
+            $this->Querys->corte();
+        }
+        public function Ultimo_Corte(){
+            if($this->session->userdata('is_logged')){
+                $dia = $this->Querys->corte_s();
+                $data = array('dia' => $dia);
+                $this->load->view('layout/header');
+                $this->load->view('layout/main');
+                $this->load->view('admin/corte', $data);
+                $this->load->view('layout/footer');
+            }else {
+                show_404();
+            }
+        }
+
         /* QUERYS */
 
         public function Insert_Presentation(){

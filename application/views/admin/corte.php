@@ -68,7 +68,7 @@
 
   				</div>
   				<div class="card-footer">
-
+					<a href="<?= base_url('index.php/Settings/Ultimo_Corte_S')?>" class="btn btn-block btn-success" id="corte">Guardar Corte</a>
   				</div>
   			</div>
   		</div>

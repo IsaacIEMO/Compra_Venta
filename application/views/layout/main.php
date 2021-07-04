@@ -245,6 +245,13 @@
 										<p>Corte del dia</p>
 									</a>
 								</li>
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Ultimo_Corte');?>"
+										class="nav-link <?= $url === 'Ultimo_Corte' ? 'active' : '' ;?>">
+										<i class="fas fa-cash-register nav-icon"></i>
+										<p>Generar Ultimo corte</p>
+									</a>
+								</li>
 							</ul>
 						</li>
 

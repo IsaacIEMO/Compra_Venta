@@ -609,7 +609,7 @@
             return $consulta->num_rows();
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento, $nombre, $direccion, $telefono){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
@@ -641,6 +641,7 @@
                     'cantidad' => $stock,
                     'precio' => $precio,
                     'descuento' => $descuento,
+                    'general' => ($descuento*$stock),
                     'subtotal' => (($stock*$precio)),
                     'estado' => 2
                 );
@@ -887,6 +888,63 @@
                     echo "Error";
                 }
             }
+        }
+
+        public function corte_dia(){
+            $consulta = $this->db->order_by('fecha','asc')->get_where('factura',array('fechas' => date('Y-m-d'),'estado' => 1));    
+            return $consulta->result();
+        }
+
+        public function corte(){
+            $alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $code = "";
+            $longitud=4;
+            for($i=0;$i<$longitud;$i++){$code .= $alpha[rand(0, strlen($alpha)-1)];}
+            $codigo = "PVR-".$code;
+            $codigo_usuario = $this->session->userdata('codigo_usuario');
+
+            $this->db->select('*');
+            $this->db->from('corte');
+            $this->db->order_by('fecha_fin', 'desc');
+            $consulta = $this->db->get();
+            foreach($consulta->result() as $item);
+            $ultima_fecha = $item->fecha_fin;
+            $nuevafecha = strtotime ( '+1 day' , strtotime ( $ultima_fecha ) ) ;
+            $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+
+
+            $data = array(
+                'codigo_corte' => md5($codigo),
+                'codigo_usuario' => $codigo_usuario,
+                'fecha_inicio' => $nuevafecha,
+                'fecha_fin' => date('Y-m-d')
+            );
+
+            $consultas = $this->db->insert('corte', $data);
+            if ($consultas) {
+                header('location:'.base_url('index.php/Dashboard'));
+                exit;
+            }else {
+                echo "Error al generar el corte";
+                exit;
+            }
+        }
+        
+        public function corte_s(){
+            $this->db->select('*');
+            $this->db->from('corte');
+            $this->db->order_by('fecha_fin', 'desc');
+            $consulta = $this->db->get();
+            foreach($consulta->result() as $item);
+            $ultima_fecha = $item->fecha_fin;
+            $nuevafecha = strtotime ( '+1 day' , strtotime ( $ultima_fecha ) ) ;
+            $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+            
+            $date = date('Y-m-d');
+
+            $consulta = $this->db->order_by('fechas','asc')->get_where('factura',array('fechas >=' => $nuevafecha, 'fechas <=' => $date, 'estado' => 1));
+            return $consulta->result(); 
+            
         }
     }
 ?>

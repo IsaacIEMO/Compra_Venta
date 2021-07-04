@@ -26,7 +26,7 @@
 <script src="<?= base_url('assets/');?>dist/js/demo.js"></script>
 
 
-<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" || $url === "Sales_L" || $urls === "Dashboard"): ?>
+<?php if($url === "new_products" || $url === "category" || $url === "List_user" || $urls === "Store" || $urls === "Products" || $urls === "Supplier" || $url === "Presentation" || $url === "Sales" || $url === "Sales_L" || $urls === "Dashboard" || $urls === "Settings"): ?>
 
 <script src="<?= base_url('assets/');?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
