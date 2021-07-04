@@ -609,7 +609,7 @@
             return $consulta->num_rows();
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
@@ -640,7 +640,8 @@
                     'tipo' => $venta,
                     'cantidad' => $stock,
                     'precio' => $precio,
-                    'subtotal' => ($stock*$precio),
+                    'descuento' => $descuento,
+                    'subtotal' => (($stock*$precio)),
                     'estado' => 2
                 );
 
@@ -789,10 +790,8 @@
             $this->db->where('codigo_factura', $codigo_factura);
             $consulta = $this->db->get();
             foreach($consulta->result() as $item){
-                $codigo_detalle = $item->codigo_detalle;
                 $tipo = $item->tipo;
                 $codigo_productos = $item->codigo_producto;
-                $precio = $item->precio;
                 $stock = $item->cantidad;
 
                 $this->db->select('*');
@@ -804,20 +803,24 @@
                 $stock_l = $inve->stock_libras;
                 $codigo_inventario = $inve->codigo_inventario;
 
-                if ($tipo == 1) {
-                    $new_stock_l = $stock_l - $stock; 
-                }
                 
-                $new_stock_qq = ($stock_qq - $stock);
-
-                if ($new_stock_l == $stock_l) {
-                    $new_stock_l = $stock_l;
+                if ($tipo == 1) {
+                    if($stock_l == 0){
+                        $new_stock_l = 100 - $stock;
+                        $new_stock_qq = $stock_qq - 1;
+                    }else {
+                        $new_stock_l = $stock_l - $stock; 
+                    }
+                    $data = array(
+                        'stock' => $new_stock_qq,
+                        'stock_libras' => $new_stock_l
+                    );
+                }else {
+                    $new_stock_qq = $stock_qq - $stock;
+                    $data = array(
+                        'stock' => $new_stock_qq
+                    );
                 }
-
-                $data = array(
-                    'stock' => $new_stock_qq,
-                    'stock_libras' => $new_stock_l
-                );
 
                 $this->db->where('codigo_inventario', $codigo_inventario);
                 $this->db->update('inventario', $data);

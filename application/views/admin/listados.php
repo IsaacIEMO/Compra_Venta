@@ -33,7 +33,10 @@
   							</tr>
   						</thead>
   						<tbody>
-  							<?php foreach($factura as $item): ?>
+  							<?php 
+							  	foreach($factura as $item): 
+									
+							?>
   							<tr>
   								<td class="text_v"><?= $item->correlativo; ?></td>
   								<td class="text_v"><?= $item->cliente; ?></td>

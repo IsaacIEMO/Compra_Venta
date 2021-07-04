@@ -22,10 +22,20 @@
 	}
 
 	function calcula() {
+		var venta = parseFloat(document.getElementById("venta").value);
 		var precio = parseFloat(document.getElementById("precio").value);
 		var stock = parseFloat(document.getElementById("stock").value);
-		var subtotal = precio * stock;
+		var descuento = parseFloat(document.getElementById("descuento").value);
+		var subtotal = (precio * stock) - (descuento * stock);
 		var total = subtotal.toFixed(2);
+		var new_subotatal = 0;
+		if(venta == 1){
+			var stock_l = parseFloat(document.getElementById("stock_l").value);
+			var precio_l = parseFloat(document.getElementById("precio_l").value);
+			new_subtotal = stock_l * precio_l;
+			subtotal = new_subotatal;
+		}
+
 
 		function separator(total) {
 			var str = total.toString().split(".");
@@ -178,7 +188,7 @@
 								<li class="nav-item">
 									<a href="<?= base_url('index.php/Sales/Sales_L');?>"
 										class="nav-link <?= $url === 'Sales_L' ? 'active' : '' ;?>">
-										<i class="far fa-edit nav-icon"></i>
+										<i class="fas fa-list nav-icon"></i>
 										<p>Listado de ventas</p>
 									</a>
 								</li>

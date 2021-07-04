@@ -19,7 +19,7 @@
 	<section class="content">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="col-lg-5 col-md-5 col-sm-12">
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">Nueva Venta</h3>
@@ -87,23 +87,31 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-lg-4 col-md-4 col-sm-12">
+									<div class="col-lg-6 col-md-6 col-sm-12">
 										<div class="form-group">
 											<label for="venta"></label>
-                                                       <select name="venta" id="venta" class="form-control">
-                                                            <option value="3">Libra / Quintal</option>
-                                                            <option value="0">Quintal</option>
-                                                            <option value="1">Libra</option>
-                                                       </select>
+												<select name="venta" id="venta" class="form-control">
+													<option value="3">Libra / Quintal</option>
+													<option value="0">Quintal</option>
+													<option value="1">Libra</option>
+												</select>
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-4 col-sm-12">
+									<div class="col-lg-6 col-md-6 col-sm-12">
 										<div class="form-group">
 											<label for="stock">Cantidad</label>
-											<input type="number" name="stock" id="stock" class="form-control text_v" onkeyup="calcula();">
+											<input type="number" name="stock" id="stock" class="form-control text_v" >
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-4 col-sm-12">
+								</div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-12">
+										<div class="form-group">
+											<label for="descuento">Descuento por Producto</label>
+											<input type="number" name="descuento" id="descuento" class="form-control text_v" step="any" onkeyup="calcula();" value="0">
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12">
 										<div class="form-group">
 											<label for="subtotal">Sub total</label>
 											<input type="number" name="subtotal" id="subtotal" class="form-control text_v" readonly>
@@ -123,7 +131,7 @@
 							</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="col-lg-7 col-md-7 col-sm-12">
 					<div class="card card-primary card-outline">
 						<div class="card-header">
 							<h3 class="card-title">Detalle de factura</h3>
@@ -133,12 +141,13 @@
 								<div class="row">
 									<div class="col-12">
 										
-										<table id="example2" class="table table-bordered">
+										<table id="example2" class="table table-bordered table-hover dataTable dtr-inline">
 											<thead>
 												<tr>
 													<th>Codigo</th>
 													<th>Producto</th>
 													<th>Cantidad</th>
+													<th>Descuento</th>
 													<th>Subtotal</th>
 													<th>Acciones</th>
 												</tr>
@@ -165,12 +174,10 @@
                                                                       $presentacion = $pres->presentacion;
                                                                  ?>
 													<td class="text_v"><?= $codigo; ?></td>
-													<td class="text_v"><?= $producto; ?>
-														<?= $presentacion; ?></td>
+													<td class="text_v"><?= $producto; ?> <?= $presentacion; ?></td>
 													<td class="text_v"><?= number_format($item->cantidad, 0, '.', ',') ?> <?= $item->tipo == 0 ? ($item->cantidad > 1 ? 'Quintales': 'Quintal') : ($item->cantidad > 1 ? 'Libras': 'Libra')?></td>
-													<td class="text_v">Q
-														<?=  number_format($item->subtotal, 2, '.', ','); ?>
-													</td>
+													<td class="text_v">Q <?=  number_format($item->descuento, 2, '.', ','); ?></td>
+													<td class="text_v">Q <?=  number_format($item->subtotal - ($item->descuento * $item->cantidad), 2, '.', ','); ?></td>
 													<td class="text_v">
 														<a href="<?= base_url('index.php/Sales/Delete_Product_Detalle')?>/<?= $item->codigo_detalle;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
 													</td>
@@ -184,6 +191,7 @@
 													<th>Codigo</th>
 													<th>Producto</th>
 													<th>Cantidad</th>
+													<th>Descuento</th>
 													<th>Subtotal</th>
 													<th>Acciones</th>
 												</tr>

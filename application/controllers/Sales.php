@@ -1,6 +1,8 @@
 <?php
-    
-    defined('BASEPATH') OR exit('No direct script access allowed');
+
+use Escpos\Printer;
+
+defined('BASEPATH') OR exit('No direct script access allowed');
     
     class Sales extends CI_Controller {
         
@@ -47,7 +49,8 @@
             $stock = $this->input->post('stock');
             $precio = $this->input->post('precio');
             $venta = $this->input->post('venta');
-            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta);
+            $descuento = $this->input->post('descuento');
+            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento);
         }
 
         public function Delete_Product_Detalle($codigo_detalle){
@@ -108,16 +111,18 @@
                 /* PARTE 1 */
 
                 /* Encabezado */
-                $printer->text("           COMERCIALIZADORA EL RANCHO\n");
-                $printer->text("             San Martín Jilotepeque\n");
-                $printer->text("           Tel: 4529-3828 El Rancho\n");
-                $printer->text("         Tel: 4665-2910 Tierra Colorado\n");
-                $printer->text("         -------------------------------\n");
-                $printer->text("               COMPROBANTE DE VENTA\n");
-                $printer->text("         -------------------------------\n");
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("COMERCIALIZADORA EL RANCHO\n");
+                $printer->text("San Martín Jilotepeque\n");
+                $printer->text("Tel: 4529-3828 El Rancho\n");
+                $printer->text("Tel: 4665-2910 Tierra Colorado\n");
+                $printer->text("-------------------------------\n");
+                $printer->text("COMPROBANTE DE VENTA\n");
+                $printer->text("-------------------------------\n");
                 /* Encabezado */
 
                 /* Cuerpo */
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
                 $printer->text("\n\n");
                 $printer->text("CLIENTE: ".$cliente."\n");
                 $printer->text("DIRECCION: ".$direccion."\n");
@@ -131,6 +136,7 @@
                     $codigo_producto = $detalle->codigo_producto;
                     $precio = $detalle->precio;
                     $subtotal = $detalle->subtotal;
+                    $descuento = $detalle->descuento;
                     $this->db->select('*');
                     $this->db->from('inventario');
                     $this->db->join('presentacion', 'presentacion.codigo_presentacion = inventario.codigo_presentacion');
@@ -146,17 +152,27 @@
                     else: 
                         $s = "0".$stock; 
                     endif;
-                    
-                    $printer->text(number_format($s, 0, '.', ',')."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                    /* STOCK */
+                    $printer->text(number_format($s, 0, '.', ',')."x ".$producto." ".$presetacion."   ".$precio."/u"."\n");
+                    /* DESCRIPCIOON */
+                    $printer->text();
+                    $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                    $printer->text("Q ".number_format($subtotal - ($descuento * $s), 2, '.', ',')."\n");
+                    if ($descuento > 0) {
+                        $printer->text("Descuento de Q".$descuento." por unidad"."\n");
+                        $des = $descuento * $s;
+                    }
                     
                 endforeach;
                 $printer->text("\n\n");
-                $printer->text("         -------------------------------\n");
-                $printer->text("               TOTAL: Q ".number_format($total, 2, '.', ',')."\n");
-                $printer->text("         -------------------------------\n");
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("-------------------------------\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("-------------------------------\n");
 
                 /* Cuerpo */
-
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
                 /* Pie de Pagina */
                 $printer -> feed(2);
                 $printer->text("CAJERO: ".$nombre_usuario."\n");
@@ -169,19 +185,20 @@
                 
                 /* PARTE 2 */
 
-                /* Encabezado */
-                $printer->text("           COMERCIALIZADORA EL RANCHO\n");
-                $printer->text("             San Martín Jilotepeque\n");
-                $printer->text("           Tel: 4529-3828 El Rancho\n");
-                $printer->text("         Tel: 4665-2910 Tierra Colorado\n");
-                $printer->text("         -------------------------------\n");
-                $printer->text("               COMPROBANTE DE VENTA\n");
-                $printer->text("         -------------------------------\n");
-                $printer->text("                      COPIA\n");
-                $printer->text("         -------------------------------\n");
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("COMERCIALIZADORA EL RANCHO\n");
+                $printer->text("San Martín Jilotepeque\n");
+                $printer->text("Tel: 4529-3828 El Rancho\n");
+                $printer->text("Tel: 4665-2910 Tierra Colorado\n");
+                $printer->text("-------------------------------\n");
+                $printer->text("COMPROBANTE DE VENTA\n");
+                $printer->text("-------------------------------\n");
+                $printer->text("COPIA\n");
+                $printer->text("-------------------------------\n");
                 /* Encabezado */
 
                 /* Cuerpo */
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
                 $printer->text("\n\n");
                 $printer->text("CLIENTE: ".$cliente."\n");
                 $printer->text("DIRECCION: ".$direccion."\n");
@@ -195,6 +212,7 @@
                     $codigo_producto = $detalle->codigo_producto;
                     $precio = $detalle->precio;
                     $subtotal = $detalle->subtotal;
+                    $descuento = $detalle->descuento;
                     $this->db->select('*');
                     $this->db->from('inventario');
                     $this->db->join('presentacion', 'presentacion.codigo_presentacion = inventario.codigo_presentacion');
@@ -210,16 +228,27 @@
                     else: 
                         $s = "0".$stock; 
                     endif;
-                    $printer->text(number_format($s, 0, '.', ',')."   ".$producto." ".$presetacion."   ".$precio."/u      Q ".number_format($subtotal, 2, '.', ',')."\n");
+                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                    /* STOCK */
+                    $printer->text(number_format($s, 0, '.', ',')."x ".$producto." ".$presetacion."   ".$precio."/u"."\n");
+                    /* DESCRIPCIOON */
+                    $printer->text();
+                    $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                    $printer->text("Q ".number_format($subtotal - ($descuento * $s), 2, '.', ',')."\n");
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+                    if ($descuento > 0) {
+                        $printer->text("Descuento de Q".$descuento." por unidad"."\n");
+                        $des = $descuento * $s;
+                    }
                     
                 endforeach;
                 $printer->text("\n\n");
-                $printer->text("         -------------------------------\n");
-                $printer->text("               TOTAL: Q ".number_format($total, 2, '.', ',')."\n");
-                $printer->text("         -------------------------------\n");
-
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("-------------------------------\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("-------------------------------\n");
                 /* Cuerpo */
-
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
                 /* Pie de Pagina */
                 $printer -> feed(2);
                 $printer->text("CAJERO: ".$nombre_usuario."\n");
