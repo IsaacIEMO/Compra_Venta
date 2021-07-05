@@ -50,7 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $precio = $this->input->post('precio');
             $venta = $this->input->post('venta');
             $descuento = $this->input->post('descuento');
-            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento);
+            $codigo_categoria = $this->input->post('codigo_categoria');
+            $this->Querys->Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento, $codigo_categoria);
         }
 
         public function Delete_Product_Detalle($codigo_detalle){

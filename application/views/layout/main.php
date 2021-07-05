@@ -246,10 +246,24 @@
 									</a>
 								</li>
 								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Corte_g');?>"
+										class="nav-link <?= $url === 'Corte_g' ? 'active' : '' ;?>">
+										<i class="fas fa-cut nav-icon"></i>
+										<p>Corte del dia gaseosas</p>
+									</a>
+								</li>
+								<li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Ultimo_Corte');?>"
 										class="nav-link <?= $url === 'Ultimo_Corte' ? 'active' : '' ;?>">
 										<i class="fas fa-cash-register nav-icon"></i>
 										<p>Generar Ultimo corte</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Ultimo_Corte_Gaseosa');?>"
+										class="nav-link <?= $url === 'Ultimo_Corte_Gaseosa' ? 'active' : '' ;?>">
+										<i class="fas fa-cash-register nav-icon"></i>
+										<p>Generar corte Gaseosas</p>
 									</a>
 								</li>
 							</ul>
@@ -283,6 +297,33 @@
 								</li>
 								
 							</ul>
+
+							<li class="nav-item <?= $urls === 'Settings' ? 'menu-open' : '' ;?>">
+							<a href="#" class="nav-link <?= $urls === 'Settings' ? 'active' : '' ;?>">
+								<i class="nav-icon fas fa-cog"></i>
+								<p>
+									Configuraciones
+									<i class="fas fa-angle-left right"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Corte');?>"
+										class="nav-link <?= $url === 'Corte' ? 'active' : '' ;?>">
+										<i class="fas fa-cut nav-icon"></i>
+										<p>Corte del dia</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Corte_g');?>"
+										class="nav-link <?= $url === 'Corte_g' ? 'active' : '' ;?>">
+										<i class="fas fa-cut nav-icon"></i>
+										<p>Corte del dia gaseosas</p>
+									</a>
+								</li>
+							</ul>
+						</li>
 						</li>
 						<?php else: ?>
 							Error

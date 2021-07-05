@@ -3,12 +3,12 @@
   		<div class="container-fluid">
   			<div class="row mb-2">
   				<div class="col-sm-6">
-  					<h1 class="m-0">Cortes</h1>
+  					<h1 class="m-0">Cortes de aguas</h1>
   				</div>
   				<div class="col-sm-6">
   					<ol class="breadcrumb float-sm-right">
   						<li class="breadcrumb-item"><a href="<?= base_url('index.php/Dashboard');?>">Inicio</a></li>
-  						<li class="breadcrumb-item active">Cortes</li>
+  						<li class="breadcrumb-item active">Cortes  de aguas</li>
   					</ol>
   				</div>
   			</div>
@@ -19,7 +19,7 @@
   		<div class="container-fluid">
   			<div class="card card-primary card-outline">
   				<div class="card-header">
-  					<h3 class="card-title">Corte del dia</h3>
+  					<h3 class="card-title">Corte de aguas</h3>
   				</div>
   				<div class="card-body">
 					<table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
@@ -27,7 +27,7 @@
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
-								<th>Producto</th>
+  								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
   							</tr>
@@ -35,6 +35,8 @@
   						<tbody>
   							<?php 
 							  	foreach($dia as $item): 
+
+
 									$codigo_factura = $item->codigo_factura;
 
 									$this->db->select('*');
@@ -44,29 +46,13 @@
 									foreach($fac->result() as $inte);
 									$correlativo = $inte->correlativo;
 									$cliente = $inte->cliente;
-
-
-									$codigo_categoria = "fb85aee11e7190e586d2422f24a604e6";
-
-									$this->db->select('*');
-									$this->db->from('corte');
-									$this->db->order_by('fecha_fin', 'desc');
-									$consultas = $this->db->get();
-									foreach($consultas->result() as $items);
-									$ultima_fecha = $items->fecha_fin;
-									$nuevafecha = strtotime ( '+1 day' , strtotime ( $ultima_fecha ) ) ;
-									$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
-									
-									$date = date('Y-m-d');
+									$codigo_categoria = $item->codigo_categoria;
 
 									$this->db->select('*');
 									$this->db->select_sum('subtotal', 'total');
 									$this->db->select_sum('general', 'des');
 									$this->db->from('detalle_factura');
-									$this->db->where('codigo_categoria != ', $codigo_categoria);
-									$this->db->where('fecha >= ', $nuevafecha);
-									$this->db->where('fecha <= ', $date);
-									$this->db->where('estado', 1);
+									$this->db->where('codigo_categoria', $codigo_categoria);
 									$consulta = $this->db->get();
 
 									$codigo_producto = $item->codigo_producto;
@@ -87,12 +73,11 @@
 									$general = $general + $total ;
 							?>
 								<tr>
-								<td class="text_v"><?= $correlativo;?></td>
+									<td class="text_v"><?= $correlativo;?></td>
 									<td class="text_v"><?= $cliente;?></td>
 									<td class="text_v"><?= $producto;?></td>
 									<td class="text_v">Q <?= number_format($item->subtotal, '2', '.', ',');?></td>
 									<td class="text_v">Q <?= number_format($item->descuento, '2', '.', ',');?></td>
-									
 									
 								</tr>
   							<?php endforeach;?>
@@ -116,9 +101,6 @@
   							</tr>
   						</tfoot>
   					</table>
-					  <div class="text_v">
-						Q <?= number_format($total, '2', '.', ','); ?>
-						</div>
 
   				</div>
   				<div class="card-footer">

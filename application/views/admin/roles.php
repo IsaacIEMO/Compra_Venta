@@ -22,11 +22,12 @@
   					<h3 class="card-title">Corte del dia</h3>
   				</div>
   				<div class="card-body">
-					<table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
+				  <table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
   						<thead>
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
+								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
   							</tr>
@@ -37,34 +38,87 @@
 									$codigo_factura = $item->codigo_factura;
 
 									$this->db->select('*');
+									$this->db->from('factura');
+									$this->db->where('codigo_factura', $codigo_factura);
+									$fac = $this->db->get();
+									foreach($fac->result() as $inte);
+									$correlativo = $inte->correlativo;
+									$cliente = $inte->cliente;
+
+
+									$codigo_categoria = "fb85aee11e7190e586d2422f24a604e6";
+
+									$this->db->select('*');
+									$this->db->from('corte');
+									$this->db->order_by('fecha_fin', 'desc');
+									$consultas = $this->db->get();
+									foreach($consultas->result() as $items);
+									$ultima_fecha = $items->fecha_fin;
+									$nuevafecha = strtotime ( '+1 day' , strtotime ( $ultima_fecha ) ) ;
+									$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+									
+									$date = date('Y-m-d');
+
+									$this->db->select('*');
 									$this->db->select_sum('subtotal', 'total');
 									$this->db->select_sum('general', 'des');
 									$this->db->from('detalle_factura');
-									$this->db->where('codigo_factura', $codigo_factura);
+									$this->db->where('codigo_categoria != ', $codigo_categoria);
+									$this->db->where('fecha >= ', $nuevafecha);
+									$this->db->where('fecha <= ', $date);
+									$this->db->where('estado', 1);
 									$consulta = $this->db->get();
+
+									$codigo_producto = $item->codigo_producto;
+									
+
+									$this->db->select('*');
+									$this->db->from('producto');
+									$this->db->where('codigo_producto', $codigo_producto);
+									$prod = $this->db->get();
+									foreach($prod->result() as $produc);
+									$producto = $produc->producto;
+									
 									foreach($consulta->result() as $detalle);
+									$total = 0;
 									$total = $detalle->total;
 									$descuento = $detalle->des;
-									
+									$general = 0;
+									$general = $general + $total ;
 							?>
 								<tr>
-									<td class="text_v"><?= $item->correlativo;?></td>
-									<td class="text_v"><?= $item->cliente;?></td>
-									<td class="text_v">Q <?= number_format($total-$descuento, '2', '.', ',');?></td>
-									<td class="text_v">Q <?= number_format($descuento, '2', '.', ',');?></td>
+								<td class="text_v"><?= $correlativo;?></td>
+									<td class="text_v"><?= $cliente;?></td>
+									<td class="text_v"><?= $producto;?></td>
+									<td class="text_v">Q <?= number_format($item->subtotal, '2', '.', ',');?></td>
+									<td class="text_v">Q <?= number_format($item->descuento, '2', '.', ',');?></td>
+									
 									
 								</tr>
   							<?php endforeach;?>
+							  <td font color = "#000000">z</td>
+							  <td></td>
+							  <td></td>
+							  <td>Total: </td>
+							  <td>
+							  <div class="text_v">
+						Q <?= number_format($total, '2', '.', ','); ?>
+						</div>
+							  </td>
   						</tbody>
   						<tfoot>
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
+								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
   							</tr>
   						</tfoot>
   					</table>
+					  <div class="text_v">
+						Q <?= number_format($total, '2', '.', ','); ?>
+						</div>
 
   				</div>
   				<div class="card-footer">

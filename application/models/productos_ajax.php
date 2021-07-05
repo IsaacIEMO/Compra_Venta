@@ -22,6 +22,7 @@
 
                 <label for="stock_l">Existencia Libra</label>
                 <input type="text" name="stock_l" id="stock_l" class="form-control text_v" value="<?= $item->stock_libras ;?>" readonly>
+                <input type="hidden" name="codigo_categoria" id="codigo_categoria" value="<?= $item->codigo_categoria ;?>">
             <?php
             endforeach;
         }

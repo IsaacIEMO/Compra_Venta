@@ -5,6 +5,7 @@ function detalles() {
 	var precio = $("#precio").val();
 	var venta = $("#venta").val();
 	var descuento = $("#descuento").val();
+	var codigo_categoria = $("#codigo_categoria").val();
 	var ok = true;
 	var msg = "\n";
 
@@ -44,7 +45,7 @@ function detalles() {
 			confirmButtonText: 'Deseas Continuar?'
 		}).then((result) => {
 			if (result.value) {
-				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta, descuento:descuento }, function (data) {
+				$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta, descuento:descuento, codigo_categoria:codigo_categoria }, function (data) {
 					if (data == 1) {
                         if (result.value) {
                             location.reload();
@@ -60,7 +61,7 @@ function detalles() {
 			}
 		})
 	} else {
-		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta, descuento:descuento  }, function (data) {
+		$.post('../Sales/Insert_Detalle_Sales', { op: 'insert_detalles', producto: producto, subtotal: subtotal, stock: stock, precio:precio, venta:venta, descuento:descuento , codigo_categoria:codigo_categoria }, function (data) {
 			if (data == 1) {
 				location.reload();
                 

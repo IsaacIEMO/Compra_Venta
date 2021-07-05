@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2021 a las 08:43:26
+-- Tiempo de generación: 04-07-2021 a las 08:45:22
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -324,7 +324,7 @@ CREATE TABLE `inventario` (
   `utilidad` double(10,2) NOT NULL DEFAULT 0.00,
   `stock_libras` double(10,2) NOT NULL DEFAULT 0.00,
   `precio_libras` double(10,2) NOT NULL DEFAULT 0.00,
-  `vencimiento` date DEFAULT curdate(),
+  `vencimiento` date DEFAULT NULL,
   `u_registro` varchar(50) NOT NULL,
   `f_registro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `u_actualizacion` varchar(50) NOT NULL,

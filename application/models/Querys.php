@@ -609,7 +609,7 @@
             return $consulta->num_rows();
         }
 
-        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento){
+        public function Sales_Detalle_Insert($op, $producto, $old, $stock, $precio, $venta, $descuento, $codigo_categoria){
             if ($op === "insert_detalles") {
                 if (empty($producto) && empty($old) && empty($stock)) {
                     echo "Error, no viene datos ";
@@ -636,6 +636,7 @@
                 $data = array(
                     'codigo_detalle' => md5($detalle),
                     'codigo_usuario' => $codigo_usuario,
+                    'codigo_categoria' => $codigo_categoria,
                     'codigo_producto' => $producto,
                     'tipo' => $venta,
                     'cantidad' => $stock,
@@ -891,7 +892,20 @@
         }
 
         public function corte_dia(){
-            $consulta = $this->db->order_by('fecha','asc')->get_where('factura',array('fechas' => date('Y-m-d'),'estado' => 1));    
+            $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria !=' => $gaseosas,'fecha' => date('Y-m-d'), 'estado' => 1));
+            return $consulta->result();
+        }
+
+        public function corte_diac_g(){
+            $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria' => $gaseosas,'fecha' => date('Y-m-d'), 'estado' => 1));
+            return $consulta->result();
+        }
+        
+        public function corte_dia_g(){
+            $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria !=' => $gaseosas,'fecha >=' => date('Y-m-d'), 'estado' => 1));
             return $consulta->result();
         }
 
@@ -941,10 +955,27 @@
             $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
             
             $date = date('Y-m-d');
-
-            $consulta = $this->db->order_by('fechas','asc')->get_where('factura',array('fechas >=' => $nuevafecha, 'fechas <=' => $date, 'estado' => 1));
+            $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria !=' => $gaseosas,'fecha >=' => $nuevafecha, 'fecha <=' => $date, 'estado' => 1));
             return $consulta->result(); 
             
+        }
+        
+        public function corte_s_g(){
+            $this->db->select('*');
+            $this->db->from('corte');
+            $this->db->order_by('fecha_fin', 'desc');
+            $consulta = $this->db->get();
+            foreach($consulta->result() as $item);
+            $ultima_fecha = $item->fecha_fin;
+            $nuevafecha = strtotime ( '+1 day' , strtotime ( $ultima_fecha ) ) ;
+            $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+            
+            $date = date('Y-m-d');
+
+            $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria' => $gaseosas,'fecha >=' => $nuevafecha, 'fecha <=' => $date, 'estado' => 1));
+            return $consulta->result();
         }
     }
 ?>

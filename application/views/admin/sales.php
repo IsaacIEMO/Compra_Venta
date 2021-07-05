@@ -91,7 +91,7 @@
 										<div class="form-group">
 											<label for="venta"></label>
 												<select name="venta" id="venta" class="form-control">
-													<option value="3">Libra / Quintal</option>
+													<option value="0">Libra / Quintal</option>
 													<option value="0">Quintal</option>
 													<option value="1">Libra</option>
 												</select>

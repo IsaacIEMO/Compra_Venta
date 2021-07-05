@@ -41,9 +41,23 @@
             }
         }
 
+        public function Corte_g(){
+            if($this->session->userdata('is_logged')){
+                $dia = $this->Querys->corte_diac_g();
+                $data = array('dia' => $dia);
+                $this->load->view('layout/header');
+                $this->load->view('layout/main');
+                $this->load->view('admin/roles', $data);
+                $this->load->view('layout/footer');
+            }else {
+                show_404();
+            }
+        }
+
         public function Ultimo_Corte_S(){
             $this->Querys->corte();
         }
+        
         public function Ultimo_Corte(){
             if($this->session->userdata('is_logged')){
                 $dia = $this->Querys->corte_s();
@@ -51,6 +65,19 @@
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
                 $this->load->view('admin/corte', $data);
+                $this->load->view('layout/footer');
+            }else {
+                show_404();
+            }
+        }
+        
+        public function Ultimo_Corte_Gaseosa(){
+            if($this->session->userdata('is_logged')){
+                $dia = $this->Querys->corte_s_g();
+                $data = array('dia' => $dia);
+                $this->load->view('layout/header');
+                $this->load->view('layout/main');
+                $this->load->view('admin/corte_g', $data);
                 $this->load->view('layout/footer');
             }else {
                 show_404();
