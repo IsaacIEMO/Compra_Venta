@@ -22,12 +22,12 @@
   					<h3 class="card-title">Corte del dia</h3>
   				</div>
   				<div class="card-body">
-				  <table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
+  					<table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
   						<thead>
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
-								<th>Producto</th>
+  								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
   							</tr>
@@ -64,8 +64,7 @@
 									$this->db->select_sum('general', 'des');
 									$this->db->from('detalle_factura');
 									$this->db->where('codigo_categoria != ', $codigo_categoria);
-									$this->db->where('fecha >= ', $nuevafecha);
-									$this->db->where('fecha <= ', $date);
+									$this->db->where('fecha', $date);
 									$this->db->where('estado', 1);
 									$consulta = $this->db->get();
 
@@ -80,45 +79,38 @@
 									$producto = $produc->producto;
 									
 									foreach($consulta->result() as $detalle);
-									$total = 0;
-									$total = $detalle->total;
+									if (empty($detalle->total)) {
+										$total = 0;
+									}else {
+										$total = $detalle->total;
+									}
 									$descuento = $detalle->des;
 									$general = 0;
 									$general = $general + $total ;
 							?>
-								<tr>
-								<td class="text_v"><?= $correlativo;?></td>
-									<td class="text_v"><?= $cliente;?></td>
-									<td class="text_v"><?= $producto;?></td>
-									<td class="text_v">Q <?= number_format($item->subtotal, '2', '.', ',');?></td>
-									<td class="text_v">Q <?= number_format($item->descuento, '2', '.', ',');?></td>
-									
-									
-								</tr>
+  							<tr>
+  								<td class="text_v"><?= $correlativo;?></td>
+  								<td class="text_v"><?= $cliente;?></td>
+  								<td class="text_v"><?= $producto;?></td>
+  								<td class="text_v">Q <?= number_format($item->subtotal, '2', '.', ',');?></td>
+  								<td class="text_v">Q <?= number_format($item->descuento, '2', '.', ',');?></td>
+
+
+  							</tr>
   							<?php endforeach;?>
-							  <td font color = "#000000">z</td>
-							  <td></td>
-							  <td></td>
-							  <td>Total: </td>
-							  <td>
-							  <div class="text_v">
-						Q <?= number_format($total, '2', '.', ','); ?>
-						</div>
-							  </td>
+  							<td colspan="5" class="text_v">Total: Q <?= isset($total) ? number_format($total, '2', '.', ',') : '0'; ?></td>
   						</tbody>
   						<tfoot>
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
-								<th>Producto</th>
+  								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
   							</tr>
   						</tfoot>
   					</table>
-					  <div class="text_v">
-						Q <?= number_format($total, '2', '.', ','); ?>
-						</div>
+  					
 
   				</div>
   				<div class="card-footer">

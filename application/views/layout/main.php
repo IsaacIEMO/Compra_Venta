@@ -237,7 +237,7 @@
 										<i class="fas fa-weight nav-icon"></i>
 										<p>Presentacion</p>
 									</a>
-								</li>
+								<!-- </li>
 								<li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Corte');?>"
 										class="nav-link <?= $url === 'Corte' ? 'active' : '' ;?>">
@@ -259,11 +259,20 @@
 										<p>Generar Ultimo corte</p>
 									</a>
 								</li>
+
 								<li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Ultimo_Corte_Gaseosa');?>"
 										class="nav-link <?= $url === 'Ultimo_Corte_Gaseosa' ? 'active' : '' ;?>">
 										<i class="fas fa-cash-register nav-icon"></i>
 										<p>Generar corte Gaseosas</p>
+									</a>
+								</li> -->
+								
+								<li class="nav-item">
+									<a href="<?= base_url('index.php/Settings/Generar_Reportes');?>"
+										class="nav-link <?= $url === 'Generar_Reportes' ? 'active' : '' ;?>">
+										<i class="fas fa-cash-register nav-icon"></i>
+										<p>Cortes</p>
 									</a>
 								</li>
 							</ul>

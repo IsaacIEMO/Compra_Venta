@@ -15,6 +15,8 @@
   <script src="<?= base_url('assets/');?>dist/js/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/fontawesome-free/css/all.min.css">
 
+  <link rel="icon" href="<?= base_url('assets/');?>dist/img/logo.png">
+
   <link rel="stylesheet" href="<?= base_url('assets/');?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="<?= base_url('assets/');?>dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?= base_url('assets/');?>dist/css/style.css">

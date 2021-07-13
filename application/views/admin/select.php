@@ -76,7 +76,7 @@
 								?>
 
   								<td class="text_v"><?= $presentacion; ?></td>
-  								<td class="text_v"><?= $stock; ?> <?= $stock >= 2 ? 'quintales' : 'quintal'; ?> <?= $stock_libras > 0 ? " -- ".number_format($stock_libras, -2, '.', ',').' lbs' : ''?></td>
+  								<td class="text_v"><?= $stock; ?> <?= $stock >= 2 ? $codigo_categoria = 'fb85aee11e7190e586d2422f24a604e6' ? 'unidades' : 'quintales' : $codigo_categoria = 'fb85aee11e7190e586d2422f24a604e6' ? 'unidad' : 'quintal'; ?> <?= $stock_libras > 0 ? " -- ".number_format($stock_libras, -2, '.', ',').' lbs' : ''?></td>
   								<td class="text_v">Q <?= number_format($ganancia, 2, '.', ','); ?></td>
   								<td class="text_v">
 								  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#up<?= $item->codigo_producto; ?>" title="Actualizar Existencia"><i class="fas fa-sync-alt"></i></button>

@@ -7,6 +7,8 @@
         public function __construct(){
             parent::__construct();
             $this->load->model('Querys');
+            $this->load->model('Ajax_productos');
+            
         }
         
         /* VIEWS */
@@ -47,7 +49,7 @@
                 $data = array('dia' => $dia);
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
-                $this->load->view('admin/roles', $data);
+                $this->load->view('admin/role', $data);
                 $this->load->view('layout/footer');
             }else {
                 show_404();
@@ -78,6 +80,25 @@
                 $this->load->view('layout/header');
                 $this->load->view('layout/main');
                 $this->load->view('admin/corte_g', $data);
+                $this->load->view('layout/footer');
+            }else {
+                show_404();
+            }
+        }
+
+        public function corte_atrasado(){
+            $reservationdate = $this->input->post('reservation');
+            $corte = $this->input->post('corte');
+            $this->Ajax_productos->cortes($reservationdate, $corte);
+        }
+        
+        public function Generar_Reportes(){
+            if($this->session->userdata('is_logged')){
+                $dia = $this->Querys->corte_s_g();
+                $data = array('dia' => $dia);
+                $this->load->view('layout/header');
+                $this->load->view('layout/main');
+                $this->load->view('admin/corte_f', $data);
                 $this->load->view('layout/footer');
             }else {
                 show_404();

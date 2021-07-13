@@ -5,7 +5,7 @@
 <aside class="control-sidebar control-sidebar-dark"></aside>
 
 <footer class="main-footer">
-	<strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. <div class="float-right d-none d-sm-inline-block"> <b>Version</b> 3.1.0 </div>
+	<strong>Copyright &copy; 2021 <a href="http://chapinesgo.com/" target="_blank">Chapinesgo</a>.</strong> Todos los derechos reservados. <div class="float-right d-none d-sm-inline-block"> <b>Version</b> 3.1.0 </div>
 </footer>
 </div>
 
@@ -34,13 +34,12 @@
 <script src="<?= base_url('assets/');?>plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="<?= base_url('assets/');?>plugins/jszip/jszip.min.js"></script>
-<script src="<?= base_url('assets/');?>plugins/pdfmake/pdfmake.min.js"></script>
-<script src="<?= base_url('assets/');?>plugins/pdfmake/vfs_fonts.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url('assets/');?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="<?= base_url('assets/');?>plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?= base_url('assets/');?>plugins/jszip/jszip.min.js"></script>
+<script src="<?= base_url('assets/');?>plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?= base_url('assets/');?>plugins/pdfmake/vfs_fonts.js"></script>
 
 <script src="<?= base_url('assets/');?>plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
@@ -83,7 +82,7 @@
 			format: 'L'
 		});
 
-		$('#reservation').daterangepicker()
+		$('#reservation').daterangepicker();
 
 		$('#timepicker').datetimepicker({
 			format: 'LT'
@@ -118,6 +117,10 @@
 	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.all.min.js"></script>
 	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.js"></script>
 	<script src="<?= base_url('assets/');?>dist/sweetalert2/sweetalert2.min.js"></script>
+<?php endif; 
+	if($urls === "Settings"):
+?>
+	<script src="<?= base_url('assets/');?>dist/js/cortes.js"></script>
 <?php endif; ?>
 
 </body>

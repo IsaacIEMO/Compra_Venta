@@ -819,6 +819,10 @@
                     );
                 }else {
                     $new_stock_qq = $stock_qq - $stock;
+
+                    if ($new_stock_qq < 0) {
+                        $new_stock_qq = $new_stock_qq * -1;
+                    }
                     $data = array(
                         'stock' => $new_stock_qq
                     );
@@ -905,7 +909,7 @@
         
         public function corte_dia_g(){
             $gaseosas = "fb85aee11e7190e586d2422f24a604e6";
-            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria !=' => $gaseosas,'fecha >=' => date('Y-m-d'), 'estado' => 1));
+            $consulta = $this->db->order_by('fecha','asc')->get_where('detalle_factura',array('codigo_categoria !=' => $gaseosas,'fecha =' => date('Y-m-d'), 'estado' => 1));
             return $consulta->result();
         }
 
