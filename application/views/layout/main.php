@@ -237,7 +237,7 @@
 										<i class="fas fa-weight nav-icon"></i>
 										<p>Presentacion</p>
 									</a>
-								<!-- </li>
+								</li>
 								<li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Corte');?>"
 										class="nav-link <?= $url === 'Corte' ? 'active' : '' ;?>">
@@ -266,13 +266,16 @@
 										<i class="fas fa-cash-register nav-icon"></i>
 										<p>Generar corte Gaseosas</p>
 									</a>
-								</li> -->
+								</li>
 								
 								<li class="nav-item">
 									<a href="<?= base_url('index.php/Settings/Generar_Reportes');?>"
 										class="nav-link <?= $url === 'Generar_Reportes' ? 'active' : '' ;?>">
 										<i class="fas fa-cash-register nav-icon"></i>
-										<p>Cortes</p>
+										<p>
+											Cortes en proceso
+											<span class="right badge badge-danger">Beta</span>
+										</p>
 									</a>
 								</li>
 							</ul>
