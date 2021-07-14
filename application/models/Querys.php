@@ -672,7 +672,7 @@
             }
 
             $data = array(
-                'estado' => 0
+                'estado' => 5
             );
 
             $this->db->where('codigo_detalle', $codigo_detalle);
@@ -690,12 +690,15 @@
         public function Sales_Delete_D($codigo_usuario){
 
             $data = array(
-                'estado' => 0
+                'estado' => 4
             );
 
             $codigo_usuario = $this->session->userdata('codigo_usuario');
-
+            $date = date('Y-m-d');
             $this->db->where('codigo_usuario', $codigo_usuario);
+            $this->db->where('fecha', $date);
+            $this->db->where('codigo_factura', '');
+            $this->db->where('estado', 2);
             $this->db->update('detalle_factura', $data);
 
             if ($this->db->affected_rows()) {
