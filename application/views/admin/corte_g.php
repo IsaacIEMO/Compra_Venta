@@ -27,6 +27,7 @@
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
+								<th>Cantidad</th>
   								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
@@ -38,6 +39,7 @@
 
 
 									$codigo_factura = $item->codigo_factura;
+									$stock = $item->cantidad;
 
 									$this->db->select('*');
 									$this->db->from('factura');
@@ -78,13 +80,15 @@
   							<tr>
   								<td class="text_v"><?= $correlativo;?></td>
   								<td class="text_v"><?= $cliente;?></td>
+								<td class="text_v"><?= number_format($stock, '0', '.', ',');?></td>
   								<td class="text_v"><?= $producto;?></td>
   								<td class="text_v">Q <?= number_format($item->subtotal, '2', '.', ',');?></td>
-  								<td class="text_v">Q <?= number_format($item->descuento, '2', '.', ',');?></td>
+  								<td class="text_v">Q <?= number_format(($item->descuento)*$stock, '2', '.', ',');?></td>
 
   							</tr>
   							<?php endforeach;?>
   							<td font color="#000000">z</td>
+  							<td></td>
   							<td></td>
   							<td></td>
   							<td>Total: </td>
@@ -98,6 +102,7 @@
   							<tr>
   								<th>Codigo</th>
   								<th>Cliente</th>
+								<th>Cantidad</th>
   								<th>Producto</th>
   								<th>Total</th>
   								<th>Descuento</th>
