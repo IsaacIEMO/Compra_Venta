@@ -99,6 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             endforeach;
 
             $this->db->select('*');
+            $this->db->select_sum('general', 'general');
             $this->db->from('detalle_factura');
             $this->db->where('codigo_factura', $codigo_factura);
             $consulta = $this->db->get();
@@ -166,10 +167,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                     
                 endforeach;
+                foreach($consulta->result() as $detalle);
+                $descuento_total = $detalle->general;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$descuento_total), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
 
                 /* Cuerpo */
@@ -243,10 +246,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                     
                 endforeach;
+                foreach($consulta->result() as $detalle);
+                $descuento_total = $detalle->general;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$descuento_total), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
                 /* Cuerpo */
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
