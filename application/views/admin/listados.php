@@ -35,18 +35,25 @@
   						<tbody>
   							<?php 
 							  	foreach($factura as $item): 
-									
+									$codigo_factura = $item->codigo_factura;
+									$this->db->select_sum('general', 'des');
+									$this->db->from('detalle_factura');
+									$this->db->where('codigo_factura', $codigo_factura);
+									$consulta = $this->db->get();
+									foreach($consulta->result() as $des);
+									$descuento = $des->des;
+									$total = $item->total;
 							?>
   							<tr>
   								<td class="text_v"><?= $item->correlativo; ?></td>
   								<td class="text_v"><?= $item->cliente; ?></td>
-  								<td class="text_v">Q <?= number_format($item->total, 2, '.', ','); ?></td>
+  								<td class="text_v">Q <?= number_format($total-$descuento, 2, '.', ','); ?></td>
   								<td class="text_v"> <?= date("d/m/Y", strtotime($item->fecha));?> </td>
                                 <input type="hidden" name="codigo_factura<?= $item->codigo_factura; ?>" id="codigo_factura" value="<?= $item->codigo_factura; ?>">
   								<td class="text_v">
   									<a href="<?= base_url('index.php/Sales/Printer/');?><?= $item->codigo_factura; ?>" class="btn btn-secondary" title="Imprimir comprobante"><i class="fas fa-print"></i></a>
   									<a href="<?= base_url('index.php/Sales/Delete_Sales')?>/<?= $item->codigo_factura; ?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
-  									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs" title="Infomacion General"><i class="fas fa-info-circle"></i></button>
+  									<!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs" title="Infomacion General"><i class="fas fa-info-circle"></i></button> -->
   								</td>
   							</tr>
 

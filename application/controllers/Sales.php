@@ -99,6 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             endforeach;
 
             $this->db->select('*');
+            $this->db->select_sum('general', 'general');
             $this->db->from('detalle_factura');
             $this->db->where('codigo_factura', $codigo_factura);
             $consulta = $this->db->get();
@@ -115,8 +116,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("COMERCIALIZADORA EL RANCHO\n");
                 $printer->text("San Martín Jilotepeque\n");
-                $printer->text("Tel: 4529-3828 El Rancho\n");
-                $printer->text("Tel: 4665-2910 Tierra Colorado\n");
+                $printer->text("Tel: 3067-8399 El Rancho\n");
+                $printer->text("Tel: 3068-3074 Tierra Colorado\n");
                 $printer->text("-------------------------------\n");
                 $printer->text("COMPROBANTE DE VENTA\n");
                 $printer->text("-------------------------------\n");
@@ -166,6 +167,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                     
                 endforeach;
+                foreach($consulta->result() as $detalle);
+                $descuento_total = $detalle->general;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
@@ -181,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
 
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$general), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$descuento_total), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
 
                 /* Cuerpo */
@@ -201,8 +204,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("COMERCIALIZADORA EL RANCHO\n");
                 $printer->text("San Martín Jilotepeque\n");
-                $printer->text("Tel: 4529-3828 El Rancho\n");
-                $printer->text("Tel: 4665-2910 Tierra Colorado\n");
+                $printer->text("Tel: 3067-8399 El Rancho\n");
+                $printer->text("Tel: 3068-3074 Tierra Colorado\n");
                 $printer->text("-------------------------------\n");
                 $printer->text("COMPROBANTE DE VENTA\n");
                 $printer->text("-------------------------------\n");
@@ -255,6 +258,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                     
                 endforeach;
+                foreach($consulta->result() as $detalle);
+                $descuento_total = $detalle->general;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $this->db->select_sum('general');
@@ -269,7 +274,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
 
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$general), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$descuento_total), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
                 /* Cuerpo */
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
