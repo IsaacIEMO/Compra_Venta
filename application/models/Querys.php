@@ -280,9 +280,40 @@
 
             $new_utilidad = $utilidad * $new;
 
+            $new_stock = $old + $new;
+
             $data = array(
-                'stock' => $new,
+                'stock' => $new_stock,
                 'u_lote' => $new_utilidad,
+                'u_actualizacion' => $codigo_usuarios,
+                'f_actualizacion' => $date
+            );
+
+            $this->db->where('codigo_producto', $codigo_producto);
+            $this->db->update('inventario', $data);
+            
+            if ($this->db->affected_rows()) {
+                header('location:'.base_url('index.php/Products/list_products'));
+                exit;
+            }else {
+                echo "Error al actualizar la contraseña";
+                exit;
+            }
+        }
+
+        public function Products_Update_Stock_lbs($codigo_producto, $old, $new){
+            if (empty($codigo_producto) && empty($old) && empty($new)) {
+                echo "No viene datos";
+                exit;
+            }
+
+            $date = date('Y-M-F H:i:s A');
+            $codigo_usuarios = $this->session->userdata('codigo_usuario');
+
+            $new_stock = $old + $new;
+
+            $data = array(
+                'stock_libras' => $new_stock,
                 'u_actualizacion' => $codigo_usuarios,
                 'f_actualizacion' => $date
             );

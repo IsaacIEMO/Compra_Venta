@@ -82,7 +82,7 @@
 								  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#up<?= $item->codigo_producto; ?>" title="Actualizar Existencia"><i class="fas fa-sync-alt"></i></button>
   									<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cash<?= $item->codigo_producto; ?>" title="Actualizar Precios"><i class="fas fa-money-bill-wave"></i></button>
   									<a href="<?= base_url('index.php/Products/Delete_Product')?>/<?= $item->codigo_producto;?>" class="btn btn-danger" title="Eliminacion categoria"><i class="fas fa-trash"></i></a>
-  									<a href="" class="btn btn-success" title="Ventas de categoria"><i class="far fa-list-alt"></i></a>
+  									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#lbs<?= $item->codigo_producto; ?>" title="Ventas de categoria"><i class="fas fa-weight"></i></button>
   									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#prs<?= $item->codigo_producto; ?>" title="Infomacion General"><i class="fas fa-info-circle"></i></button>
   								</td>
   							</tr>
@@ -189,7 +189,7 @@
 														<div class="col-lg-6 col-md-6 col-sm-12">
 															<div class="form-group">
 																<label for="old">Existencia Actual</label>
-																<input type="text" name="old" id="old" class="form-control text_v" disabled value="<?= $stock; ?>">
+																<input type="number" name="old" id="old" class="form-control text_v" readonly value="<?= $stock; ?>">
 																<input type="hidden" name="codigo_producto" value="<?= $codigo_producto;?>">
 																<input type="hidden" name="utilidad" value="<?= $utilidad;?>">
 															</div>
@@ -201,13 +201,13 @@
 															</div>
 														</div>
 													</div>
-													<div class="row">
+													<!-- <div class="row">
 														<div class="col-lg-12 col-md-12 col-sm-12">
 															<u class="text_v">
 																<i class="text_v">*Nota: Al momento de actualizar no se suman la existencia, se cambia el total.</i>
 															</u>
 														</div>
-													</div>
+													</div> -->
 												</div>
 												<div class="modal-footer justify-content-between">
 													<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -218,8 +218,53 @@
 									</div>
 								</div>
 							  <!-- actualizar stock -->
+							  
+							  <!-- actualizar libras -->
+								<div class="modal fade" id="lbs<?= $item->codigo_producto; ?>">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title">Nuevas libras/unidades <?= $item->producto; ?>  <?= $presentacion; ?></h4>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<form action="<?= base_url('index.php/Products/Update_Stock_Lbs');?>" method="POST">
+												<div class="modal-body">
+													<div class="row">
+														<div class="col-lg-6 col-md-6 col-sm-12">
+															<div class="form-group">
+																<label for="old">Existencia Actual</label>
+																<input type="number" name="old_lbs" id="old_lbs" class="form-control text_v" readonly value="<?= $stock_libras; ?>">
+																<input type="hidden" name="codigo_producto" value="<?= $codigo_producto;?>">
+															</div>
+														</div>
+														<div class="col-lg-6 col-md-6 col-sm-12">
+															<div class="form-group">
+																<label for="new">Nueva Existencia</label>
+																<input type="number" name="new_lbs" id="new_lbs" class="form-control text_v">
+															</div>
+														</div>
+													</div>
+													<!-- <div class="row">
+														<div class="col-lg-12 col-md-12 col-sm-12">
+															<u class="text_v">
+																<i class="text_v">*Nota: Al momento de actualizar no se suman la existencia, se cambia el total.</i>
+															</u>
+														</div>
+													</div> -->
+												</div>
+												<div class="modal-footer justify-content-between">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+													<button type="submit" class="btn btn-primary">Actualizar existencia</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							  <!-- actualizar libras -->
 
-							  <!-- actualizar stock -->
+							  <!-- actualizar cash -->
 								<div class="modal fade" id="cash<?= $item->codigo_producto; ?>">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
@@ -277,7 +322,7 @@
 										</div>
 									</div>
 								</div>
-							  <!-- actualizar stock -->
+							  <!-- actualizar cash -->
   							<?php endforeach; ?>
   						</tbody>
   						<tfoot>

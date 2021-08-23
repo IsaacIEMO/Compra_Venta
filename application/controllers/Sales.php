@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         public function Printer($codigo_factura){
             $factura = $this->Querys->Sales_Select_W(["codigo_factura" => $codigo_factura]);
-            $nombre_usuario = $this->session->userdata('nombre')." ".$this->session->userdata('apellido');;
+            $nombre_usuario = $this->session->userdata('nombre')." ".$this->session->userdata('apellido');
 
             foreach($factura as $item):
                 $correlativo = $item->correlativo;
@@ -168,8 +168,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 endforeach;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+                $this->db->select_sum('general');
+                $this->db->from('detalle_factura');
+                $this->db->where('codigo_factura', $codigo_factura);
+                $consultas = $this->db->get();
+                foreach($consultas->result() as $descuentos);
+                if ($descuentos->general > 0) {
+                    $general = $descuentos->general;
+                }else {
+                    $general = 0;
+                }
+
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$general), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
 
                 /* Cuerpo */
@@ -245,8 +257,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 endforeach;
                 $printer->text("\n\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $this->db->select_sum('general');
+                $this->db->from('detalle_factura');
+                $this->db->where('codigo_factura', $codigo_factura);
+                $consultas = $this->db->get();
+                foreach($consultas->result() as $descuentos);
+                if ($descuentos->general > 0) {
+                    $general = $descuentos->general;
+                }else {
+                    $general = 0;
+                }
+
                 $printer->text("-------------------------------\n");
-                $printer->text("TOTAL: Q ".number_format(($total-$des), 2, '.', ',')."\n");
+                $printer->text("TOTAL: Q ".number_format(($total-$general), 2, '.', ',')."\n");
                 $printer->text("-------------------------------\n");
                 /* Cuerpo */
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
