@@ -283,7 +283,7 @@
             $new_stock = $old + $new;
 
             $data = array(
-                'stock' => $new_stock,
+                'stock' => $new,
                 'u_lote' => $new_utilidad,
                 'u_actualizacion' => $codigo_usuarios,
                 'f_actualizacion' => $date
@@ -313,7 +313,7 @@
             $new_stock = $old + $new;
 
             $data = array(
-                'stock_libras' => $new_stock,
+                'stock_libras' => $new,
                 'u_actualizacion' => $codigo_usuarios,
                 'f_actualizacion' => $date
             );
